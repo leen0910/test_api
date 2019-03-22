@@ -24,8 +24,8 @@ class post_request(unittest.TestCase):
         #将data序列化为json格式数据，传递给data参数
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
-        token=r.headers["authorization"]
-        print(token)
+        # token=r.headers["authorization"]
+        # print(token)
     def test_login_02(self):
         """异常数据：不存在的帐户"""
         url=self.post_url
@@ -38,6 +38,13 @@ class post_request(unittest.TestCase):
         url=self.post_url
         header = self.header
         data = {"account":"root","password":"root"} #帐号名正确，密码错误
+        r = requests.post(url, data=json.dumps(data), headers=header)
+        print(r.text)
+    def test_login_04(self):
+        """异常数据：空帐户名密码"""
+        url=self.post_url
+        header = self.header
+        data = {"account":"","password":""} #帐号名，密码为空
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
     def tearDown(self):

@@ -12,6 +12,7 @@ class get_request(unittest.TestCase):
         self.get_url = '%s'%API
 
     def test_url_01(self):
+        """打开测试api地址"""
         url=self.get_url
         r = requests.get(url)
         print(r.text)

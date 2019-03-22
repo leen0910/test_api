@@ -2,9 +2,10 @@
 import requests
 import json
 import unittest
-import readconfig
-import get_token
+from common import readconfig
+from common import get_token
 import random
+
 
 
 class post_request(unittest.TestCase):
@@ -22,9 +23,8 @@ class post_request(unittest.TestCase):
         'x-module-id': "fecab02aa09d7fdecdee8c1941035ef2"
         }
 
-    def test_createprogram_ok(self):
+    def test_createprogram_01(self):
         """成功上传程序文件"""
-        self.rt=readconfig.ReadConfig()
         account=self.rt.get_account()
         url=self.post_url
         header = self.header
@@ -44,8 +44,34 @@ class post_request(unittest.TestCase):
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
 
+
+    def test_getprogram_02(self):
+        """得到程序文件列表"""
+        url=self.post_url
+        header = self.header
+        r = requests.get(url, headers=header)
+        print(r.text)
+        # t=r.json()['data'][0]['id']
+        return r
+
+    def test_deleteprogram_03(self):
+        """删除第一个程序"""
+        # t=self.test_getprogram_02()
+        r=self.test_getprogram_02()
+        t=r.json()['data'][0]['id']
+        if t:
+            print("删除程序列中第一个程序")
+            url=self.post_url+'/%s'%t  #传入删除程序id
+            header = self.header
+            r=requests.delete(url,headers=header)
+            print(r.text)
+        else:
+            print('程序列为空')
+
+
     def tearDown(self):
         pass
 
 if __name__ == "__main__":
     unittest.main()
+

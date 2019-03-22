@@ -1,8 +1,7 @@
 # coding:utf-8
 import requests
 import json
-import unittest
-import readconfig
+from common import readconfig
 
 rt=readconfig.ReadConfig()
 API=rt.get_api()
@@ -10,7 +9,7 @@ Prefix=rt.get_prefix()
 account=rt.get_account()
 password=rt.get_pw()
 
-class GetToken(unittest.TestCase):
+class GetToken:
 
     def test_token(self):
         """读取配置文件中的帐号后登录"""
@@ -23,7 +22,6 @@ class GetToken(unittest.TestCase):
         #将data序列化为json格式数据，传递给data参数
         r = requests.post(url, data=json.dumps(data), headers=header)
         token=r.headers["authorization"]
-        print(token)
         return token
 
 
@@ -31,5 +29,6 @@ class GetToken(unittest.TestCase):
         pass
 
 if __name__ == "__main__":
-    unittest.main()
+    test=GetToken()
+    print(test.test_token())
 
