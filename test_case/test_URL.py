@@ -1,8 +1,7 @@
 # coding:utf-8
 import requests
 import unittest
-# from readconfig import ReadConfig
-import readconfig
+from common import readconfig
 
 class get_request(unittest.TestCase):
 

@@ -2,7 +2,7 @@
 import requests
 import json
 import unittest
-import readconfig
+from common import readconfig
 
 
 class post_request(unittest.TestCase):
@@ -33,6 +33,7 @@ class post_request(unittest.TestCase):
         data = {"account":"root1","password":"root09"} #不存在的登录帐号名
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
+
     def test_login_03(self):
         """异常数据：密码错误"""
         url=self.post_url
