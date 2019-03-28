@@ -15,6 +15,7 @@ class get_request(unittest.TestCase):
         url=self.get_url
         r = requests.get(url)
         print(r.text)
+        self.assertEqual(r.status_code,200)
 
     def tearDown(self):
         pass

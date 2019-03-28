@@ -35,10 +35,9 @@ class post_request(unittest.TestCase):
           "author": "%s"%account,
           "size": 100,
           "data": "{\"type\":\"set\",\"fname\":\"1\",\"fdata\":{\"robot\":{\"label\":\"路点1\",\"name\":\"pos\",\"id\":\"fbd9e511-4174-46bd-8ae5-04ae4d2ce46a\",\"data\":{\"x\":400,\"y\":0,\"z\":0,\"rx\":0,\"coordinate\":\"world\"},\"breakpoint\":false,\"comment\":\"\",\"children\":[],\"isValid\":false},\"ref\":[]}}",
-          "version":"V1.4.1",
+          "version":"1.7.1",
           "types":"四轴-1",
-          "machine":"qs-1",
-          "model":"QR-400.1"
+          "machine":"QRST4-05401500"
         }
         #正确的程序数据
         #将data序列化为json格式数据，传递给data参数
@@ -55,8 +54,11 @@ class post_request(unittest.TestCase):
         self.assertEqual(r.status_code,200)
         # print(r.text)
         print("获取程序文件列表")
-        t=r.json()['data'][0]['id']
-        return t
+        if r.json()['total']!=0:
+            t=r.json()['data'][0]['id']
+            return t
+        else:
+            t=''
 
     def modify_program(self):
         """修改第一个程序的主方法"""
@@ -64,9 +66,11 @@ class post_request(unittest.TestCase):
         # t=r.json()['data'][0]['id']
         if t:
             self.url=self.post_url+'/%s'%t  #传入程序id
+            return self.url
         else:
             print('程序列表为空')
-        return self.url
+
+
 
     def test_modifyprogram_name_03(self):
         """修改程序name字段"""
@@ -110,15 +114,15 @@ class post_request(unittest.TestCase):
         print(r.text)
         self.assertEqual(r.status_code,200)
 
-    def test_modifyprogram_model_07(self):
-        """修改程序model字段"""
-        url=self.modify_program()
-        header = self.header
-        n=random.randint(0,99)
-        data = {"model": "QR-400修改-%s"%n}  #随机生成修改后的名
-        r = requests.patch(url, data=json.dumps(data), headers=header)
-        print(r.text)
-        self.assertEqual(r.status_code,200)
+    # def test_modifyprogram_model_07(self):
+    #     """修改程序model字段"""
+    #     url=self.modify_program()
+    #     header = self.header
+    #     n=random.randint(0,99)
+    #     data = {"model": "QR-400修改-%s"%n}  #随机生成修改后的名
+    #     r = requests.patch(url, data=json.dumps(data), headers=header)
+    #     print(r.text)
+    #     self.assertEqual(r.status_code,200)
 
     def test_modifyprogram_machine_08(self):
         """修改程序machine字段"""
@@ -140,7 +144,15 @@ class post_request(unittest.TestCase):
         print(r.text)
         self.assertEqual(r.status_code,200)
 
-    def test_deleteprogram_10(self):
+    def test_view_oneprogram_10(self):
+        """查看某个程序的详细内容"""
+        url=self.modify_program()
+        header=self.header
+        r = requests.get(url, headers=header)
+        self.assertEqual(r.status_code,200)
+        print(r.text)
+
+    def test_deleteprogram_11(self):
         """删除第一个程序"""
         self.test_createprogram_01()  #先上传一个程序
         t=self.test_getprogram_02()
@@ -153,6 +165,18 @@ class post_request(unittest.TestCase):
             self.assertEqual(r.status_code,204)
         else:
             print('程序列表为空')
+
+    def test_get_recycleprogram_12(self):
+        """得到程序文件回收站列表"""
+        url=self.post_url+'/recycle-bins'
+        header = self.header
+        r = requests.get(url, headers=header)
+        self.assertEqual(r.status_code,200)
+        t=r.json()['total']
+        if t==0:
+            print("回收站为空")
+        else:
+            print(r.text)
 
 
     def tearDown(self):

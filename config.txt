@@ -2,5 +2,5 @@
 api=https://test.robot-qixing.com:1014
 port=
 prefix=/v0
-account=root
-pw=root09
+account=lining
+pw=666666
