@@ -24,7 +24,7 @@ class post_request(unittest.TestCase):
         'x-module-id': "03767159816cac28b1e3f2a0e0014b2b"
         }
     #
-    def test_create_tmplprogram_01(self):
+    def test01_create_tmplprogram(self):
         """成功上传模板程序文件"""
         account=self.rt.get_account()
         url=self.post_url
@@ -46,7 +46,7 @@ class post_request(unittest.TestCase):
         self.assertEqual(r.status_code,201)
     #
     #
-    def test_get_tmplprogram_02(self):
+    def test02_get_tmplprogram(self):
         """得到模板程序文件列表"""
         url=self.post_url
         header = self.header
@@ -63,7 +63,7 @@ class post_request(unittest.TestCase):
 
     def modify_tmplprogram(self):
         """修改第一个模板程序的主方法"""
-        t=self.test_get_tmplprogram_02()
+        t=self.test02_get_tmplprogram()
         # t=r.json()['data'][0]['id']
         if t:
             self.url=self.post_url+'/%s'%t  #传入程序id
@@ -73,10 +73,10 @@ class post_request(unittest.TestCase):
         return self.url
 
 
-    def test_modifytmpl_name_03(self):
+    def test03_modifytmpl_name(self):
         """修改模板程序name字段"""
         print("新增一个模板程序文件")
-        self.test_create_tmplprogram_01()  #先上传一个程序
+        self.test01_create_tmplprogram()  #先上传一个程序
         url=self.modify_tmplprogram()
         header = self.header
         n=random.randint(0,255*255)
@@ -88,7 +88,7 @@ class post_request(unittest.TestCase):
         else:
             print('无模板的name字段修改')
 
-    def test_modifytmpl_author_04(self):
+    def test04_modifytmpl_author(self):
         """修改模板程序author字段"""
         url=self.modify_tmplprogram()
         header = self.header
@@ -101,7 +101,7 @@ class post_request(unittest.TestCase):
         else:
             print('无模板的author字段修改')
 
-    def test_modifytmpl_version_05(self):
+    def test05_modifytmpl_version(self):
         """修改模板程序version字段"""
         url=self.modify_tmplprogram()
         header = self.header
@@ -114,7 +114,7 @@ class post_request(unittest.TestCase):
         else:
             print('无模板的verdion字段修改')
 
-    def test_modifytmpl_types_06(self):
+    def test06_modifytmpl_types(self):
         """修改模板程序types字段"""
         url=self.modify_tmplprogram()
         header = self.header
@@ -127,9 +127,9 @@ class post_request(unittest.TestCase):
         else:
             print('无模板的types字段修改')
 
-    # def test_modifysub_model_07(self):
+    # def test07_modifytmpl_model(self):
     #     """修改子程序model字段"""
-    #     url=self.modify_subprogram()
+    #     url=self.modify_tmplprogram()()
     #     header = self.header
     #     n=random.randint(0,99)
     #     data = {"model": "QR-400修改-%s"%n}  #随机生成修改后的名
@@ -137,7 +137,7 @@ class post_request(unittest.TestCase):
     #     print(r.text)
     #     self.assertEqual(r.status_code,200)
 
-    def test_modifytmpl_machine_08(self):
+    def test08_modifytmpl_machine(self):
         """修改模板程序machine字段"""
         url=self.modify_tmplprogram()
         header = self.header
@@ -151,7 +151,7 @@ class post_request(unittest.TestCase):
             print('无模板的machine字段修改')
 
 
-    def test_modifytmpl_data_09(self):
+    def test09_modifytmpl_data(self):
         """修改模板程序data字段"""
         url=self.modify_tmplprogram()
         header = self.header
@@ -163,7 +163,7 @@ class post_request(unittest.TestCase):
         else:
             print('无模板的data字段修改')
 
-    def test_modifytmpl_price_10(self):
+    def test10_modifytmpl_price(self):
         """修改模板程序price字段"""
         url=self.modify_tmplprogram()
         header = self.header
@@ -177,7 +177,7 @@ class post_request(unittest.TestCase):
         else:
             print('无模板的price字段修改')
 
-    def test_modifytmpl_public_11(self):
+    def test11_modifytmpl_public(self):
         """修改模板程序为公开"""
         url=self.modify_tmplprogram()
         header = self.header
@@ -189,7 +189,7 @@ class post_request(unittest.TestCase):
         else:
             print('无模板程序设置为公开')
 
-    def test_view_onetmpl_12(self):
+    def test12_view_onetmpl(self):
         """查看某个模板程序的详细内容"""
         url=self.modify_tmplprogram()
         header = self.header
@@ -200,10 +200,10 @@ class post_request(unittest.TestCase):
         else:
             print('模板列表为空')
 
-    def test_delete_subprogram_13(self):
+    def test13_delete_subprogram(self):
         """删除第一个模板程序"""
-        self.test_create_tmplprogram_01()  #先上传一个模板
-        t=self.test_get_tmplprogram_02()
+        self.test01_create_tmplprogram()  #先上传一个模板
+        t=self.test02_get_tmplprogram()
         if t:
             print("删除模板程序列中第一个程序")
             url=self.post_url+'/%s'%t  #传入删除程序id
@@ -214,7 +214,7 @@ class post_request(unittest.TestCase):
         else:
             print('模板程序列表为空')
 
-    def test_get_recycleprogram_14(self):
+    def test14_get_recycleprogram(self):
         """得到模板文件回收站列表"""
         url=self.post_url+'/recycle-bins'
         header = self.header

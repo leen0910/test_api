@@ -16,7 +16,7 @@ class post_request(unittest.TestCase):
     'x-platform': "web",
     } #根据实际内容
 
-    def test_login_01(self):
+    def test01_login(self):
         """正确用户名密码登录"""
         url=self.post_url
         header = self.header
@@ -27,7 +27,7 @@ class post_request(unittest.TestCase):
         self.assertEqual(r.status_code,200)
         # token=r.headers["authorization"]
         # print(token)
-    def test_login_02(self):
+    def test02_login(self):
         """异常数据：不存在的帐户"""
         url=self.post_url
         header = self.header
@@ -36,7 +36,7 @@ class post_request(unittest.TestCase):
         print(r.text)
         self.assertEqual(r.json()["code"],4101)
 
-    def test_login_03(self):
+    def test03_login(self):
         """异常数据：密码错误"""
         url=self.post_url
         header = self.header
@@ -45,7 +45,7 @@ class post_request(unittest.TestCase):
         print(r.text)
         self.assertEqual(r.json()["code"],4107)
 
-    def test_login_04(self):
+    def test04_login(self):
         """异常数据：空帐户名密码"""
         url=self.post_url
         header = self.header

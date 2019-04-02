@@ -24,7 +24,7 @@ class post_request(unittest.TestCase):
         'x-module-id': "2468aeb5eb109b45b3e29abcbf01867d"
         }
     #
-    def test_create_subprogram_01(self):
+    def test01_create_subprogram(self):
         """成功上传子程序文件"""
         account=self.rt.get_account()
         url=self.post_url
@@ -46,7 +46,7 @@ class post_request(unittest.TestCase):
         self.assertEqual(r.status_code,201)
     #
     #
-    def test_get_subprogram_02(self):
+    def test02_get_subprogram(self):
         """得到子程序文件列表"""
         url=self.post_url
         header = self.header
@@ -59,7 +59,7 @@ class post_request(unittest.TestCase):
 
     def modify_subprogram(self):
         """修改第一个子程序的主方法"""
-        t=self.test_get_subprogram_02()
+        t=self.test02_get_subprogram()
         # t=r.json()['data'][0]['id']
         if t:
             self.url=self.post_url+'/%s'%t  #传入程序id
@@ -68,10 +68,10 @@ class post_request(unittest.TestCase):
         return self.url
 
 
-    def test_modifysub_name_03(self):
+    def test03_modifysub_name(self):
         """修改子程序name字段"""
         print("新增一个子程序文件")
-        self.test_create_subprogram_01()  #先上传一个程序
+        self.test01_create_subprogram()  #先上传一个程序
         url=self.modify_subprogram()
         header = self.header
         n=random.randint(0,255*255)
@@ -80,7 +80,7 @@ class post_request(unittest.TestCase):
         print(r.text)
         self.assertEqual(r.status_code,200)
 
-    def test_modifysub_author_04(self):
+    def test04_modifysub_author(self):
         """修改子程序author字段"""
         url=self.modify_subprogram()
         header = self.header
@@ -90,7 +90,7 @@ class post_request(unittest.TestCase):
         print(r.text)
         self.assertEqual(r.status_code,200)
 
-    def test_modifysub_version_05(self):
+    def test05_modifysub_version(self):
         """修改子程序version字段"""
         url=self.modify_subprogram()
         header = self.header
@@ -100,7 +100,7 @@ class post_request(unittest.TestCase):
         print(r.text)
         self.assertEqual(r.status_code,200)
 
-    def test_modifysub_types_06(self):
+    def test06_modifysub_types(self):
         """修改子程序types字段"""
         url=self.modify_subprogram()
         header = self.header
@@ -110,7 +110,7 @@ class post_request(unittest.TestCase):
         print(r.text)
         self.assertEqual(r.status_code,200)
 
-    # def test_modifysub_model_07(self):
+    # def test07_modifysub_model(self):
     #     """修改子程序model字段"""
     #     url=self.modify_subprogram()
     #     header = self.header
@@ -120,7 +120,7 @@ class post_request(unittest.TestCase):
     #     print(r.text)
     #     self.assertEqual(r.status_code,200)
 
-    def test_modifysub_machine_08(self):
+    def test08_modifysub_machine(self):
         """修改子程序machine字段"""
         url=self.modify_subprogram()
         header = self.header
@@ -131,7 +131,7 @@ class post_request(unittest.TestCase):
         self.assertEqual(r.status_code,200)
 
 
-    def test_modifysub_data_09(self):
+    def test09_modifysub_data(self):
         """修改子程序data字段"""
         url=self.modify_subprogram()
         header = self.header
@@ -140,7 +140,7 @@ class post_request(unittest.TestCase):
         print(r.text)
         self.assertEqual(r.status_code,200)
 
-    def test_view_onesub_10(self):
+    def test10_view_onesub(self):
         """查看某个子程序的详细内容"""
         url=self.modify_subprogram()
         header = self.header
@@ -148,10 +148,10 @@ class post_request(unittest.TestCase):
         self.assertEqual(r.status_code,200)
         print(r.text)
 
-    def test_delete_subprogram_11(self):
+    def test11_delete_subprogram(self):
         """删除第一个子程序"""
-        self.test_create_subprogram_01()  #先上传一个程序
-        t=self.test_get_subprogram_02()
+        self.test01_create_subprogram()  #先上传一个程序
+        t=self.test02_get_subprogram()
         if t:
             print("删除子程序列中第一个程序")
             url=self.post_url+'/%s'%t  #传入删除程序id
@@ -162,7 +162,7 @@ class post_request(unittest.TestCase):
         else:
             print('子程序列表为空')
 
-    def test_get_recyclesub_12(self):
+    def test12_get_recyclesub(self):
         """得到子程序文件回收站列表"""
         url=self.post_url+'/recycle-bins'
         header = self.header

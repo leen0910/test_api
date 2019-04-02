@@ -24,7 +24,7 @@ class post_request(unittest.TestCase):
         'x-module-id': "fecab02aa09d7fdecdee8c1941035ef2"
         }
     #
-    def test_createprogram_01(self):
+    def test01_createprogram(self):
         """成功上传程序文件"""
         account=self.rt.get_account()
         url=self.post_url
@@ -46,7 +46,7 @@ class post_request(unittest.TestCase):
         self.assertEqual(r.status_code,201)
     #
     #
-    def test_getprogram_02(self):
+    def test02_getprogram(self):
         """得到程序文件列表"""
         url=self.post_url
         header = self.header
@@ -62,7 +62,7 @@ class post_request(unittest.TestCase):
 
     def modify_program(self):
         """修改第一个程序的主方法"""
-        t=self.test_getprogram_02()
+        t=self.test02_getprogram()
         # t=r.json()['data'][0]['id']
         if t:
             self.url=self.post_url+'/%s'%t  #传入程序id
@@ -72,10 +72,10 @@ class post_request(unittest.TestCase):
 
 
 
-    def test_modifyprogram_name_03(self):
+    def test03_modifyprogram_name(self):
         """修改程序name字段"""
         print("新增一个程序文件")
-        self.test_createprogram_01()  #先上传一个程序
+        self.test01_createprogram()  #重新上传一个程序
         url=self.modify_program()
         header = self.header
         n=random.randint(0,255*255)
@@ -84,7 +84,7 @@ class post_request(unittest.TestCase):
         print(r.text)
         self.assertEqual(r.status_code,200)
 
-    def test_modifyprogram_author_04(self):
+    def test04_modifyprogram_author(self):
         """修改程序author字段"""
         url=self.modify_program()
         header = self.header
@@ -94,7 +94,7 @@ class post_request(unittest.TestCase):
         print(r.text)
         self.assertEqual(r.status_code,200)
 
-    def test_modifyprogram_version_05(self):
+    def test05_modifyprogram_version(self):
         """修改程序version字段"""
         url=self.modify_program()
         header = self.header
@@ -104,7 +104,7 @@ class post_request(unittest.TestCase):
         print(r.text)
         self.assertEqual(r.status_code,200)
 
-    def test_modifyprogram_types_06(self):
+    def test06_modifyprogram_types(self):
         """修改程序types字段"""
         url=self.modify_program()
         header = self.header
@@ -114,7 +114,7 @@ class post_request(unittest.TestCase):
         print(r.text)
         self.assertEqual(r.status_code,200)
 
-    # def test_modifyprogram_model_07(self):
+    # def test07_modifyprogram_model(self):
     #     """修改程序model字段"""
     #     url=self.modify_program()
     #     header = self.header
@@ -124,7 +124,7 @@ class post_request(unittest.TestCase):
     #     print(r.text)
     #     self.assertEqual(r.status_code,200)
 
-    def test_modifyprogram_machine_08(self):
+    def test08_modifyprogram_machine(self):
         """修改程序machine字段"""
         url=self.modify_program()
         header = self.header
@@ -135,7 +135,7 @@ class post_request(unittest.TestCase):
         self.assertEqual(r.status_code,200)
 
 
-    def test_modifyprogram_data_09(self):
+    def test09_modifyprogram_data(self):
         """修改程序data字段"""
         url=self.modify_program()
         header = self.header
@@ -144,7 +144,7 @@ class post_request(unittest.TestCase):
         print(r.text)
         self.assertEqual(r.status_code,200)
 
-    def test_view_oneprogram_10(self):
+    def test10_view_oneprogram(self):
         """查看某个程序的详细内容"""
         url=self.modify_program()
         header=self.header
@@ -152,10 +152,10 @@ class post_request(unittest.TestCase):
         self.assertEqual(r.status_code,200)
         print(r.text)
 
-    def test_deleteprogram_11(self):
+    def test11_deleteprogram(self):
         """删除第一个程序"""
-        self.test_createprogram_01()  #先上传一个程序
-        t=self.test_getprogram_02()
+        self.test01_createprogram()  #先上传一个程序
+        t=self.test02_getprogram()
         if t:
             print("删除程序列中第一个程序")
             url=self.post_url+'/%s'%t  #传入删除程序id
@@ -166,7 +166,7 @@ class post_request(unittest.TestCase):
         else:
             print('程序列表为空')
 
-    def test_get_recycleprogram_12(self):
+    def test12_get_recycleprogram(self):
         """得到程序文件回收站列表"""
         url=self.post_url+'/recycle-bins'
         header = self.header
