@@ -53,8 +53,12 @@ class post_request(unittest.TestCase):
         r = requests.get(url, headers=header)
         self.assertEqual(r.status_code,200)
         # print(r.text)
-        print("获取子程序文件列表")
-        t=r.json()['data'][0]['id']
+        if r.json()['total']!=0:
+            print("获取子程序文件列表")
+            t=r.json()['data'][0]['id']
+        else:
+            t=''
+            print('子程序列表为空')
         return t
 
     def modify_subprogram(self):
@@ -162,7 +166,7 @@ class post_request(unittest.TestCase):
         else:
             print('子程序列表为空')
 
-    def test12_get_recyclesub(self):
+    def test12_getsub_recyclesub(self):
         """得到子程序文件回收站列表"""
         url=self.post_url+'/recycle-bins'
         header = self.header
@@ -172,7 +176,85 @@ class post_request(unittest.TestCase):
         if t==0:
             print("回收站为空")
         else:
-            print(r.text)
+            print('成功获得子程序回收站列表')
+        return r
+
+    def test13_getsub_allID(self):
+        """得到所有程序文件列表的id"""
+        url=self.post_url
+        header = self.header
+        r = requests.get(url, headers=header)
+        self.assertEqual(r.status_code,200)
+        n=r.json()['total']
+        if n!=0:
+            t=[]
+            for index in range(0,n):
+                t.append(r.json()['data'][index]['id'])
+        else:
+            t=''
+            print('子程序列表为空')
+        print("get所有子程序文件id:%s "%t)
+        return t
+
+    def test14_deletesub_allID(self):
+        """删除所有子程序文件"""
+        r=self.test02_get_subprogram()
+        if r:
+            print("删除程序列表中所有子程序：")
+            t_list=self.test13_getsub_allID()
+            for t in t_list:
+                url=self.post_url+'/%s'%t  #传入删除程序id
+                header = self.header
+                r=requests.delete(url,headers=header)
+                self.assertEqual(r.status_code,204)
+                print('成功删除程序文件id：%s'%t)
+        else:
+            print('程序列表已经为空')
+
+    def test15_recycleRecover_1stID(self):
+        """回收站程序列表第一个文件还原"""
+        r=self.test12_getsub_recyclesub()
+        if r.json()['total']!=0:
+            t=r.json()['data'][0]['id']
+            print("还原回收站中第一个程序：")
+            url=self.post_url+'/retrieval/%s'%t  #传入删除程序id
+            header = self.header
+            r=requests.post(url,headers=header)
+            self.assertEqual(r.status_code,201)
+            print('还原回收站文件id：%s'%t)
+        else:
+            print('程序列表已经为空')
+
+    def test16_get_recycleprogram_allID(self):
+        """得到回收站所有子程序文件id"""
+        url=self.post_url+'/recycle-bins'
+        header = self.header
+        r = requests.get(url, headers=header)
+        self.assertEqual(r.status_code,200)
+        n=r.json()['total']
+        if n!=0:
+            t=[]
+            for index in range(0,n):
+                t.append(r.json()['data'][index]['id'])
+        else:
+            t=''
+            print('回收站子程序列表为空')
+        print("get所有回收站子程序文件id:%s "%t)
+        return t
+
+    def test17_deleterecycle_allID(self):
+        """删除回收站的所有子程序文件"""
+        t_list=self.test16_get_recycleprogram_allID()
+        if t_list:
+            print("删除回收站中所有子程序：")
+            for t in t_list:
+                url=self.post_url+'/force-delete/%s'%t  #传入删除程序id
+                header = self.header
+                r=requests.post(url,headers=header)
+                self.assertEqual(r.status_code,204)
+                print('成功删除回收站子程序文件id：%s'%t)
+        else:
+            print('子程序列表已经为空')
 
     def tearDown(self):
         pass
