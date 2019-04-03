@@ -196,20 +196,20 @@ class post_request(unittest.TestCase):
         print("get所有子程序文件id:%s "%t)
         return t
 
-    def test14_deletesub_allID(self):
-        """删除所有子程序文件"""
-        r=self.test02_get_subprogram()
-        if r:
-            print("删除程序列表中所有子程序：")
-            t_list=self.test13_getsub_allID()
-            for t in t_list:
-                url=self.post_url+'/%s'%t  #传入删除程序id
-                header = self.header
-                r=requests.delete(url,headers=header)
-                self.assertEqual(r.status_code,204)
-                print('成功删除程序文件id：%s'%t)
-        else:
-            print('程序列表已经为空')
+    # def test14_deletesub_allID(self):
+    #     """删除所有子程序文件"""
+    #     r=self.test02_get_subprogram()
+    #     if r:
+    #         print("删除程序列表中所有子程序：")
+    #         t_list=self.test13_getsub_allID()
+    #         for t in t_list:
+    #             url=self.post_url+'/%s'%t  #传入删除程序id
+    #             header = self.header
+    #             r=requests.delete(url,headers=header)
+    #             self.assertEqual(r.status_code,204)
+    #             print('成功删除程序文件id：%s'%t)
+    #     else:
+    #         print('程序列表已经为空')
 
     def test15_recycleRecover_1stID(self):
         """回收站程序列表第一个文件还原"""

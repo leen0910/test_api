@@ -243,20 +243,20 @@ class post_request(unittest.TestCase):
         print("get所有模板程序文件id:%s "%t)
         return t
 
-    def test16_deletetmpl_allID(self):
-        """删除所有模板程序文件"""
-        r=self.test02_get_tmplprogram()
-        if r:
-            print("删除列表中所有模板程序：")
-            t_list=self.test15_gettmpl_allID()
-            for t in t_list:
-                url=self.post_url+'/%s'%t  #传入删除程序id
-                header = self.header
-                r=requests.delete(url,headers=header)
-                self.assertEqual(r.status_code,204)
-                print('成功删除模板程序文件id：%s'%t)
-        else:
-            print('模板程序列表已经为空')
+    # def test16_deletetmpl_allID(self):
+    #     """删除所有模板程序文件"""
+    #     r=self.test02_get_tmplprogram()
+    #     if r:
+    #         print("删除列表中所有模板程序：")
+    #         t_list=self.test15_gettmpl_allID()
+    #         for t in t_list:
+    #             url=self.post_url+'/%s'%t  #传入删除程序id
+    #             header = self.header
+    #             r=requests.delete(url,headers=header)
+    #             self.assertEqual(r.status_code,204)
+    #             print('成功删除模板程序文件id：%s'%t)
+    #     else:
+    #         print('模板程序列表已经为空')
 
     def test17_recycleRecover_1stID(self):
         """回收站模板程序列表第一个文件还原"""
