@@ -9,7 +9,7 @@ from common import random_char
 
 
 class post_request(unittest.TestCase):
-
+    addusers=[]
     def setUp(self):
         self.rt=readconfig.ReadConfig()
         API=self.rt.get_api()
@@ -23,7 +23,7 @@ class post_request(unittest.TestCase):
         'x-platform':"web",
         'x-module-id': "7d94de1cdba7512a76fd42d71f537bfd"
         }
-    #
+
     def test01_add_users(self):
         """添加新用户：管理员帐号/激活"""
         url=self.post_url
@@ -66,6 +66,8 @@ class post_request(unittest.TestCase):
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
         self.assertEqual(r.status_code,201)
+        if r.json()['total']==1:
+            self.addusers.append(r.json()['data'][0]['id'])
 
     def test02_add_users(self):
         """添加新用户：管理员帐号/不激活"""
@@ -109,7 +111,8 @@ class post_request(unittest.TestCase):
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
         self.assertEqual(r.status_code,201)
-
+        if r.json()['total']==1:
+            self.addusers.append(r.json()['data'][0]['id'])
 
     def test03_add_users(self):
         """添加新用户：普通帐号/激活"""
@@ -153,6 +156,9 @@ class post_request(unittest.TestCase):
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
         self.assertEqual(r.status_code,201)
+        if r.json()['total']==1:
+            self.addusers.append(r.json()['data'][0]['id'])
+
 
     def test04_add_users(self):
         """添加新用户：普通帐号/非激活"""
@@ -196,6 +202,9 @@ class post_request(unittest.TestCase):
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
         self.assertEqual(r.status_code,201)
+        if r.json()['total']==1:
+            self.addusers.append(r.json()['data'][0]['id'])
+
 
     def test05_add_users(self):
         """添加新用户：用户帐号/激活"""
@@ -239,6 +248,9 @@ class post_request(unittest.TestCase):
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
         self.assertEqual(r.status_code,201)
+        if r.json()['total']==1:
+            self.addusers.append(r.json()['data'][0]['id'])
+
 
     def test06_add_users(self):
         """添加新用户：用户帐号/非激活"""
@@ -282,7 +294,70 @@ class post_request(unittest.TestCase):
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
         self.assertEqual(r.status_code,201)
+        if r.json()['total']==1:
+            self.addusers.append(r.json()['data'][0]['id'])
 
+    def test07_delete_addusers(self):
+        """删除以上用例中添加的测试帐号"""
+        for adduser in self.addusers:
+            url=self.post_url+'/%s'%adduser
+            header = self.header
+            r = requests.delete(url, headers=header)
+            self.assertEqual(r.status_code,204)
+            print('成功删除添加测试帐号: %s'%adduser)
+
+    def test08_logout(self):
+        """登录帐号退出"""
+        url=self.post_url+'/logout'
+        header = self.header
+        r = requests.post(url, headers=header)
+        self.assertEqual(r.status_code,200)
+        rt=readconfig.ReadConfig()
+        account=rt.get_account()
+        if r.json()['data'][0]['account']=='%s'%account:
+            print('%s 帐号成功退出'%account)
+
+    def test09_modify_info(self):
+        """修改登录帐户个人信息：邮箱地址"""
+        self.t=get_token.GetToken()
+        self.random=random_char.RandomChar()
+        id=self.t.test_userid()
+        url=self.post_url+'/%s'%id
+        header = self.header
+        n1=self.random.random_char([],11,0)  # 生成11位长度的纯数字字符串
+        data={
+             "email":"%s@qq.com"%n1
+        }
+        r = requests.patch(url,data=json.dumps(data), headers=header)
+        self.assertEqual(r.status_code,202)
+        email1=r.json()['data'][0]['email']
+        email2="%s@qq.com"%n1
+        if email1==email2:
+            print('email字段修改成功为：%s'%email1)
+        else:
+            print('email字段修改失败。')
+
+
+    def test10_modify_info(self):
+        """修改登录帐户个人信息：帐户余额"""
+        self.t=get_token.GetToken()
+        id=self.t.test_userid()
+        url=self.post_url+'/%s'%id
+        header = self.header
+        self.random=random_char.RandomChar()
+        n1=int(self.random.random_char([],4,0))  # 生成4位长度的纯数字字符串
+        data={
+             "wallet": {
+                "balance":n1
+            }
+}
+        r = requests.patch(url,data=json.dumps(data), headers=header)
+        self.assertEqual(r.status_code,202)
+        n=r.json()['data'][0]['wallet']['balance']
+        if n==n1:
+            print('当前帐户余额更新为：%s'%n)
+        else:
+            print('帐户余额修改失败')
 
 if __name__ == "__main__":
     unittest.main()
