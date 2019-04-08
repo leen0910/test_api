@@ -583,7 +583,13 @@
       <option name="project" value="LOCAL" />
       <updated>1554709933188</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="1、增加writeconfig&#10;2、user接口新增用例">
+      <created>1554709937919</created>
+      <option name="number" value="00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1554709937919</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
