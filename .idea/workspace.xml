@@ -551,7 +551,13 @@
       <option name="project" value="LOCAL" />
       <updated>1554349321733</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="1、增加writeconfig&#10;2、user接口新增用例">
+      <created>1554709880287</created>
+      <option name="number" value="00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1554709880287</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -617,7 +623,8 @@
     <MESSAGE value="1、更新三个程序接口删除全部用例及回收站文件操作" />
     <MESSAGE value="1、random_char：封装生成不同组合方式随机数的函数。&#10;2、新增user接口测试用例。" />
     <MESSAGE value="1、user接口用例补充" />
-    <option name="LAST_COMMIT_MESSAGE" value="1、user接口用例补充" />
+    <MESSAGE value="1、增加writeconfig&#10;2、user接口新增用例" />
+    <option name="LAST_COMMIT_MESSAGE" value="1、增加writeconfig&#10;2、user接口新增用例" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
