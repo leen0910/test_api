@@ -36,24 +36,34 @@ class rwconfig:
     #     return intSel
 
 
-    def writeconfig(self,name,value):
+    def writeconfig(self,node,name,value):
         os.chdir(r"C:\Users\test\AppData\Local\Programs\Python\Python36\autotest\test_api")
         cf = configparser.ConfigParser()
-        cf.add_section("info")
-        cf.set("info", name, value)
+        cf.add_section(node)
+        cf.set(node,name, value)
 
         try:
             with open("info.txt","w+") as f:
                 cf.write(f)
         except ImportError:
             pass
+        f.close()
 
+    def modifyconfig(self,path,node,name,value):
+        # os.chdir(r"C:\Users\test\AppData\Local\Programs\Python\Python36\autotest\test_api")
+        cf = configparser.ConfigParser()
+        cf.read(path)
+        cf.set(node,name,value)
+        f=open(path,'w')
+        cf.write(f)
+        f.close()
 
 if __name__=="__main__":
     obj = rwconfig()
     # obj.readconfig()
-    path = r"C:\Users\test\AppData\Local\Programs\Python\Python36\autotest\test_api"
+    path = r"C:\Users\test\AppData\Local\Programs\Python\Python36\autotest\test_api\config.txt"
     t=12346
-    obj.writeconfig('name',str(t))
+    # obj.writeconfig('name',str(t))
+    obj.modifyconfig(path,'base','name2','66666')
 
 

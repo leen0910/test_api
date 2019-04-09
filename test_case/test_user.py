@@ -5,6 +5,7 @@ import unittest
 from common import readconfig
 from common import get_token
 from common import random_char
+from common import writeconfig
 
 
 
@@ -403,9 +404,11 @@ class post_request(unittest.TestCase):
         id=self.t.test_userid()
         url=self.post_url+'/pwd/set/%s'%id
         header = self.header
+        self.rt=readconfig.ReadConfig()
+        pw=self.rt.get_pw()   #读取当前config文件中的pw值
         data= {
-            "old_password": "666666",
-            "new_password": "666666"
+            "old_password": "%s"%pw,
+            "new_password": "%s"%pw
         }
         r = requests.post(url, data=json.dumps(data),headers=header)
         self.assertEqual(r.json()['code'],4108)
@@ -424,6 +427,8 @@ class post_request(unittest.TestCase):
         r = requests.post(url, data=json.dumps(data),headers=header)
         self.assertEqual(r.json()['code'],4107)
         print('旧密码输入错误，返回error信息为: %s'%r.json()['error'])
+
+
 
     def test17_reset_pwd(self):
         """设置用户初始密码: 不允许reset当前帐号为初始密码，返回错误。"""
@@ -457,6 +462,29 @@ class post_request(unittest.TestCase):
             print('重置用户id：%s密码为初始密码123456.'%id2)
         else:
             print('不允许重置当前帐号密码！')
+
+    def test19_modify_pwd(self):
+        """成功修改个人帐号密码，并将新密码更新config.txt文件。"""
+        self.t=get_token.GetToken()
+        id=self.t.test_userid()
+        url=self.post_url+'/pwd/set/%s'%id
+        header = self.header
+        self.rt=readconfig.ReadConfig()
+        pw=self.rt.get_pw()   #读取当前config文件中的pw值
+        opw=pw
+        self.random=random_char.RandomChar()
+        npw=self.random.random_char([],6,2)  # 重新生成6位长度混合字符串
+        data= {
+            "old_password": "%s"%opw,
+            "new_password": "%s"%npw
+        }
+        r = requests.post(url, data=json.dumps(data),headers=header)
+        self.assertEqual(r.status_code,200)
+        print('当前帐户id:%s,密码更新为：%s'%(id,npw))
+        obj = writeconfig.rwconfig()
+        path = r"C:\Users\test\AppData\Local\Programs\Python\Python36\autotest\test_api\config.txt"
+        obj.modifyconfig(path,'base','pw',str(npw))
+        print('更新config.txt文件：[base]--pw值：%s'%npw)
 
     def tearDown(self):
         pass

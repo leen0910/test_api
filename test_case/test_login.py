@@ -28,7 +28,7 @@ class post_request(unittest.TestCase):
         if r.json()['total']==1:
             t=r.json()['data'][0]['id']
             obj=writeconfig.rwconfig()
-            obj.writeconfig('my_id',str(t))
+            obj.writeconfig('info','my_id',str(t))
         else:
             print("登录帐号异常")
 

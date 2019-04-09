@@ -44,4 +44,5 @@ class GetToken:
 if __name__ == "__main__":
     test=GetToken()
     print(test.test_token())
+    print(test.test_userid())
 
