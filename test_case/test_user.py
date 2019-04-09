@@ -397,6 +397,66 @@ class post_request(unittest.TestCase):
         print('搜索内容为：root test的用户列表：\n%s'%r.text)
         self.assertEqual(r.status_code,200)
 
+    def test15_modify_pwd(self):
+        """修改个人帐号密码: 新密码与老密码相同，返回错误。"""
+        self.t=get_token.GetToken()
+        id=self.t.test_userid()
+        url=self.post_url+'/pwd/set/%s'%id
+        header = self.header
+        data= {
+            "old_password": "666666",
+            "new_password": "666666"
+        }
+        r = requests.post(url, data=json.dumps(data),headers=header)
+        self.assertEqual(r.json()['code'],4108)
+        print('新旧密码一样，返回error信息为: %s'%r.json()['error'])
+
+    def test16_modify_pwd(self):
+        """修改个人帐号密码: 老密码输入错误，返回错误。"""
+        self.t=get_token.GetToken()
+        id=self.t.test_userid()
+        url=self.post_url+'/pwd/set/%s'%id
+        header = self.header
+        data= {
+            "old_password": "123456",
+            "new_password": "66666"
+        }
+        r = requests.post(url, data=json.dumps(data),headers=header)
+        self.assertEqual(r.json()['code'],4107)
+        print('旧密码输入错误，返回error信息为: %s'%r.json()['error'])
+
+    def test17_reset_pwd(self):
+        """设置用户初始密码: 不允许reset当前帐号为初始密码，返回错误。"""
+        self.t=get_token.GetToken()
+        id=self.t.test_userid()
+        url=self.post_url+'/pwd/force-reset/%s'%id
+        header = self.header
+        r = requests.post(url,headers=header)
+        self.assertEqual(r.json()['code'],4010)
+        print('重置当前帐号密码为初始密码，返回error信息为: %s'%r.json()['error'])
+
+    def get_1stuserid(self):
+        """获取用户列表中第一个用户id"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        self.assertEqual(r.status_code,200)
+        return r.json()['data'][0]['id']
+
+    def test18_reset_pwd(self):
+        """重置用户初始密码。"""
+        self.t=get_token.GetToken()
+        id1=self.t.test_userid()
+        id2=self.get_1stuserid()
+        if id1!=id2:
+            url=self.post_url+'/pwd/force-reset/%s'%id2
+            header = self.header
+            r = requests.post(url,headers=header)
+            self.assertEqual(r.status_code,200)
+            print('重置用户id：%s密码为初始密码123456.'%id2)
+        else:
+            print('不允许重置当前帐号密码！')
 
     def tearDown(self):
         pass

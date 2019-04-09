@@ -12,5 +12,5 @@ filename = test_dir1 + '/' + now + 'result.html'
 # 二进制打开，准备写入文件
 fp = open(filename, 'wb')
 # 定义测试报告
-runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title=u'测试报告', description=u'用例执行情况')
+runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title=u'API接口自动化测试报告', description=u'用例执行情况')
 runner.run(discover)
