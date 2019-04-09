@@ -3,7 +3,7 @@ import requests
 import json
 import unittest
 from common import readconfig
-
+from common import writeconfig
 
 class post_request(unittest.TestCase):
     def setUp(self):
@@ -25,6 +25,13 @@ class post_request(unittest.TestCase):
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
         self.assertEqual(r.status_code,200)
+        if r.json()['total']==1:
+            t=r.json()['data'][0]['id']
+            obj=writeconfig.rwconfig()
+            obj.writeconfig('my_id',str(t))
+        else:
+            print("登录帐号异常")
+
         # token=r.headers["authorization"]
         # print(token)
     def test02_login(self):

@@ -317,7 +317,17 @@ class post_request(unittest.TestCase):
         if r.json()['data'][0]['account']=='%s'%account:
             print('%s 帐号成功退出'%account)
 
-    def test09_modify_info(self):
+    def test09_get_myinfo(self):
+        """获取当前帐号详细信息"""
+        self.t=get_token.GetToken()
+        id=self.t.test_userid()
+        url=self.post_url+'/%s'%id
+        header = self.header
+        r = requests.get(url, headers=header)
+        self.assertEqual(r.status_code,200)
+        print('当前用户id：%s的详细信息为:\n %s'%(id,r.text))
+
+    def test10_modify_info(self):
         """修改登录帐户个人信息：邮箱地址"""
         self.t=get_token.GetToken()
         self.random=random_char.RandomChar()
@@ -338,7 +348,7 @@ class post_request(unittest.TestCase):
             print('email字段修改失败。')
 
 
-    def test10_modify_info(self):
+    def test11_modify_info(self):
         """修改登录帐户个人信息：帐户余额"""
         self.t=get_token.GetToken()
         id=self.t.test_userid()
@@ -358,6 +368,38 @@ class post_request(unittest.TestCase):
             print('当前帐户余额更新为：%s'%n)
         else:
             print('帐户余额修改失败')
+
+    def test12_delete_myself(self):
+        """删除自已的帐号：不允许"""
+        self.t=get_token.GetToken()
+        id=self.t.test_userid()
+        url=self.post_url+'/%s'%id
+        header = self.header
+        r = requests.delete(url, headers=header)
+        self.assertEqual(r.json()['code'],4008)
+        print('返回error信息为: %s'%r.json()['error'])
+
+    def test13_get_userlist(self):
+        """分页显示用户列表：显示第一页，每页显示五条记录,并且排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"  "}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test14_search_user(self):
+        """搜索用户列表并返回搜索结果"""
+        url=self.post_url
+        payload = {'search': 'root test'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print('搜索内容为：root test的用户列表：\n%s'%r.text)
+        self.assertEqual(r.status_code,200)
+
+
+    def tearDown(self):
+        pass
 
 if __name__ == "__main__":
     unittest.main()

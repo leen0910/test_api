@@ -91,5 +91,8 @@ class get_request(unittest.TestCase):
         else:
             print('启动页为空，无文件删除')
 
+    def tearDown(self):
+        pass
+
 if __name__ == "__main__":
     unittest.main()
