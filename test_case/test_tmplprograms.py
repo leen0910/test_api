@@ -60,6 +60,28 @@ class post_request(unittest.TestCase):
             t=''
             print('模板程序列表为空')
         return t
+
+    def test22_get_tmplprogram(self):
+        """分页显示个人模版文件列表：显示第一页，每页显示五条记录,并且排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"  "}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test23_search_tmplprogram(self):
+        """搜索个人模板文件列表并返回搜索结果"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','search': '测试'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        self.assertEqual(r.status_code,200)
+        if r.json()['total']!=0:
+            print('搜索含有字符“测试”的模板程序列表前五条内容：\n%s'%r.text)
+        else:
+            print('搜索结果为空')
+
     def modify_tmplprogram(self):
         """修改第一个模板程序的主方法"""
         t=self.test02_get_tmplprogram()
@@ -213,8 +235,8 @@ class post_request(unittest.TestCase):
         else:
             print('模板程序列表为空')
 
-    def test14_get_recycleprogram(self):
-        """得到模板文件回收站列表"""
+    def test14_get_recycletmpl(self):
+        """得到模板程序回收站列表"""
         url=self.post_url+'/recycle-bins'
         header = self.header
         r = requests.get(url, headers=header)
@@ -226,7 +248,64 @@ class post_request(unittest.TestCase):
             print('成功获得模板回收站列表')
         return r
 
-    def test15_gettmpl_allID(self):
+    def test15_get_recycletmpl(self):
+        """分页显示模板程序回收站列表：显示第一页，每页显示五条记录,并且排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"  "}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test16_search_recycletmpl(self):
+        """搜索模板程序回收站文件列表并返回搜索结果"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','search': '模板'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        self.assertEqual(r.status_code,200)
+        if r.json()['total']!=0:
+            print('搜索含有字符“模板”的模板程序列表前五条内容：\n%s'%r.text)
+        else:
+            print('搜索结果为空')
+
+    def test161_filter_recycletmpl(self):
+        """按类型:1 & 机型:2,过滤模板程序回收站列表"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','class':'1','model':'2'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        self.assertEqual(r.status_code,200)
+        if r.json()['total']!=0:
+            print('按类型:1 & 机型:2,过滤模板程序列表前五条内容：\n%s'%r.text)
+        else:
+            print('过滤内容为空')
+
+    def test162_filter_recycletmpl(self):
+        """按类型:12,过滤模板程序回收站列表"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','class':'12'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        self.assertEqual(r.status_code,200)
+        if r.json()['total']!=0:
+            print('按类型:12过滤模板程序列表前五条内容：\n%s'%r.text)
+        else:
+            print('过滤内容为空')
+
+    def test163_filter_recycletmpl(self):
+        """按机型:qs,过滤模板程序回收站列表"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','model':'qs'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        self.assertEqual(r.status_code,200)
+        if r.json()['total']!=0:
+            print('按机型:qs,过滤模板程序列表前五条内容：\n%s'%r.text)
+        else:
+            print('过滤内容为空')
+
+    def test17_gettmpl_allID(self):
         """得到所有模板程序文件列表的id"""
         url=self.post_url
         header = self.header
@@ -243,12 +322,12 @@ class post_request(unittest.TestCase):
         print("get所有模板程序文件id:%s "%t)
         return t
 
-    # def test16_deletetmpl_allID(self):
+    # def test18_deletetmpl_allID(self):
     #     """删除所有模板程序文件"""
     #     r=self.test02_get_tmplprogram()
     #     if r:
     #         print("删除列表中所有模板程序：")
-    #         t_list=self.test15_gettmpl_allID()
+    #         t_list=self.test17_gettmpl_allID()
     #         for t in t_list:
     #             url=self.post_url+'/%s'%t  #传入删除程序id
     #             header = self.header
@@ -258,9 +337,9 @@ class post_request(unittest.TestCase):
     #     else:
     #         print('模板程序列表已经为空')
 
-    def test17_recycleRecover_1stID(self):
+    def test19_recycleRecover_1stID(self):
         """回收站模板程序列表第一个文件还原"""
-        r=self.test14_get_recycleprogram()
+        r=self.test14_get_recycletmpl()
         if r.json()['total']!=0:
             t=r.json()['data'][0]['id']
             print("还原回收站中第一个模板程序：")
@@ -272,7 +351,7 @@ class post_request(unittest.TestCase):
         else:
             print('模板程序列表已经为空')
 
-    def test18_get_recycletmpl_allID(self):
+    def test20_get_recycletmpl_allID(self):
         """得到回收站所有模板程序文件id"""
         url=self.post_url+'/recycle-bins'
         header = self.header
@@ -289,9 +368,9 @@ class post_request(unittest.TestCase):
         print("get所有回收站模板程序文件id:%s "%t)
         return t
 
-    def test19_deleterecycle_allID(self):
+    def test21_deleterecycle_allID(self):
         """删除回收站的所有模板程序文件"""
-        t_list=self.test18_get_recycletmpl_allID()
+        t_list=self.test20_get_recycletmpl_allID()
         if t_list:
             print("删除回收站中所有模板程序：")
             for t in t_list:
@@ -302,6 +381,133 @@ class post_request(unittest.TestCase):
                 print('成功删除回收站模板程序文件id：%s'%t)
         else:
             print('模板程序列表已经为空')
+
+    def test24_filter_tmplprogram(self):
+        """按类型:1 & 机型:2,过滤模板程序列表"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','class':'1','model':'2'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        self.assertEqual(r.status_code,200)
+        if r.json()['total']!=0:
+            print('按类型:1 & 机型:2,过滤模板程序列表前五条内容：\n%s'%r.text)
+        else:
+            print('过滤内容为空')
+
+    def test25_filter_tmplprogram(self):
+        """按类型:12,过滤模板程序列表"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','class':'12'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        self.assertEqual(r.status_code,200)
+        if r.json()['total']!=0:
+            print('按类型:12过滤模板程序列表前五条内容：\n%s'%r.text)
+        else:
+            print('过滤内容为空')
+
+    def test26_filter_tmplprogram(self):
+        """按机型:qs,过滤模板程序列表"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','model':'qs'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        self.assertEqual(r.status_code,200)
+        if r.json()['total']!=0:
+            print('按机型:qs,过滤模板程序列表前五条内容：\n%s'%r.text)
+        else:
+            print('过滤内容为空')
+
+
+    def test27_get_public(self):
+        """得到公开模板程序列表"""
+        url=self.post_url+'/public'
+        header = self.header
+        r = requests.get(url, headers=header)
+        self.assertEqual(r.status_code,200)
+        if r.json()['total']!=0:
+            print("获取公开模板程序文件列表：")
+            print(r.text)
+        else:
+            print('公开模板程序列表为空')
+
+    def test28_get_public(self):
+        """得到公开模板程序列表第一页内容"""
+        url=self.post_url+'/public'
+        header = self.header
+        payload = {'page[offset]': '0', 'page[limit]': '5'}
+        r = requests.get(url,params=payload, headers=header)
+        self.assertEqual(r.status_code,200)
+        if r.json()['total']!=0:
+            print("获取公开模板程序文件列表第一页：")
+            print(r.text)
+        else:
+            print('公开模板程序列表为空')
+
+    def test29_search_public(self):
+        """搜索公开模板程序列表"""
+        url=self.post_url+'/public'
+        header = self.header
+        payload = {'page[offset]': '0', 'page[limit]': '5','search':'模板'}
+        r = requests.get(url,params=payload, headers=header)
+        self.assertEqual(r.status_code,200)
+        if r.json()['total']!=0:
+            print("搜索公开模板含 有“模板”的文件，返回第一页内容")
+            print(r.text)
+        else:
+            print('搜索结果为空')
+
+    def test30_filter_public(self):
+        """过滤为免费公开模板程序列表"""
+        url=self.post_url+'/public'
+        header = self.header
+        payload = {'page[offset]': '0', 'page[limit]': '5','price':'free'}
+        r = requests.get(url,params=payload, headers=header)
+        self.assertEqual(r.status_code,200)
+        if r.json()['total']!=0:
+            print("过滤为免费公开模板程序列表第一页")
+            print(r.text)
+        else:
+            print('无免费模板')
+
+    def test31_filter_public(self):
+        """过滤公开模板程序列表：类型"""
+        url=self.post_url+'/public'
+        header = self.header
+        payload = {'page[offset]': '0', 'page[limit]': '5','class':'12'}
+        r = requests.get(url,params=payload, headers=header)
+        self.assertEqual(r.status_code,200)
+        if r.json()['total']!=0:
+            print("过滤类型：“12”，公开模板程序列表第一页")
+            print(r.text)
+        else:
+            print('过滤类型结果为空')
+
+    def test32_filter_public(self):
+        """过滤公开模板程序列表：型号"""
+        url=self.post_url+'/public'
+        header = self.header
+        payload = {'page[offset]': '0', 'page[limit]': '5','model':'QS','class':'12','price':'free'}
+        r = requests.get(url,params=payload, headers=header)
+        self.assertEqual(r.status_code,200)
+        if r.json()['total']!=0:
+            print("过滤型号：“QS”，公开模板程序列表第一页")
+            print(r.text)
+        else:
+            print('过滤型号结果为空')
+
+    def test33_filter_public(self):
+        """过滤公开模板程序列表：综合过滤条件"""
+        url=self.post_url+'/public'
+        header = self.header
+        payload = {'page[offset]': '0', 'page[limit]': '5','model':'QS'}
+        r = requests.get(url,params=payload, headers=header)
+        self.assertEqual(r.status_code,200)
+        if r.json()['total']!=0:
+            print("过滤型号：“QS” & 类型：“12” & 免费，公开模板程序列表第一页")
+            print(r.text)
+        else:
+            print('过滤条件返回结果为空')
 
     def tearDown(self):
         pass

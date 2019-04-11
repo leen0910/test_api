@@ -60,6 +60,28 @@ class post_request(unittest.TestCase):
             t=''
         return t
 
+    def test20_get_program(self):
+        """分页显示程序列表：显示第一页，每页显示五条记录,并且排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"  "}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test21_search_program(self):
+        """搜索程序列表并返回搜索结果"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','search': '12'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        self.assertEqual(r.status_code,200)
+        if r.json()['total']!=0:
+            print('搜索含有字符“12”的程序列表前五条内容：\n%s'%r.text)
+        else:
+            print('搜索结果为空')
+
+
     def modify_program(self):
         """修改第一个程序的主方法"""
         t=self.test02_getprogram()
@@ -179,7 +201,29 @@ class post_request(unittest.TestCase):
             print('成功获得程序文件回收站列表')
         return r
 
-    def test13_getprogram_allID(self):
+    def test13_get_recycleprogram(self):
+        """分页显示文件回收站列表：显示第一页，每页显示五条记录,并且排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"  "}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test14_search_recycleprogram(self):
+        """搜索程序回收站文件列表并返回搜索结果"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','search': '程序'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        self.assertEqual(r.status_code,200)
+        if r.json()['total']!=0:
+            print('搜索含有字符“程序”的程序列表前五条内容：\n%s'%r.text)
+        else:
+            print('搜索结果为空')
+
+
+    def test15_getprogram_allID(self):
         """得到所有程序文件列表的id"""
         url=self.post_url
         header = self.header
@@ -196,12 +240,12 @@ class post_request(unittest.TestCase):
         print("get所有程序文件id:%s "%t)
         return t
 
-    # def test14_deleteprogram_allID(self):
+    # def test16_deleteprogram_allID(self):
     #     """删除所有程序文件"""
     #     r=self.test02_getprogram()
     #     if r:
     #         print("删除程序列表中所有程序：")
-    #         t_list=self.test13_getprogram_allID()
+    #         t_list=self.test15_getprogram_allID()
     #         for t in t_list:
     #             url=self.post_url+'/%s'%t  #传入删除程序id
     #             header = self.header
@@ -211,7 +255,7 @@ class post_request(unittest.TestCase):
     #     else:
     #         print('程序列表已经为空')
 
-    def test15_recycleRecover_1stID(self):
+    def test17_recycleRecover_1stID(self):
         """回收站程序列表第一个文件还原"""
         r=self.test12_get_recycleprogram()
         if r.json()['total']!=0:
@@ -225,7 +269,7 @@ class post_request(unittest.TestCase):
         else:
             print('程序列表已经为空')
 
-    def test16_get_recycleprogram_allID(self):
+    def test18_get_recycleprogram_allID(self):
         """得到回收站所有程序文件id"""
         url=self.post_url+'/recycle-bins'
         header = self.header
@@ -242,9 +286,9 @@ class post_request(unittest.TestCase):
         print("get所有回收站程序文件id:%s "%t)
         return t
 
-    def test17_deleterecycle_allID(self):
-        """删除回收站的所有程序文件"""
-        t_list=self.test16_get_recycleprogram_allID()
+    def test19_deleterecycle_allID(self):
+        """彻底删除回收站的所有程序文件"""
+        t_list=self.test18_get_recycleprogram_allID()
         if t_list:
             print("删除回收站中所有程序：")
             for t in t_list:
