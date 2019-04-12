@@ -298,6 +298,78 @@ class post_request(unittest.TestCase):
         if r.json()['total']==1:
             self.addusers.append(r.json()['data'][0]['id'])
 
+    def test061_sort_userlist(self):
+        """用户列表account：帐号 列升序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"account"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test062_sort_userlist(self):
+        """用户列表account：帐号 列降序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-account"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test063_sort_userlist(self):
+        """用户列表commany.name：公司 列升序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"company.name"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test064_sort_userlist(self):
+        """用户列表commany.name:公司 列降序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-company.name"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test065_sort_userlist(self):
+        """用户列表role:角色列升序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"role"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test066_sort_userlist(self):
+        """用户列表role:角色列降序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-role"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test067_sort_userlist(self):
+        """用户列表status:状态列升序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"status"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test068_sort_userlist(self):
+        """用户列表status:状态列降序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-status"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
     def test07_delete_addusers(self):
         """删除以上用例中添加的测试帐号"""
         for adduser in self.addusers:

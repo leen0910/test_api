@@ -30,14 +30,15 @@ class post_request(unittest.TestCase):
         url=self.post_url
         header = self.header
         n=random.randint(0,255*255*255)
+        n1=random.randint(0,20)
         data={
           "name": "模板程序测试%s"%n,
           "author": "%s"%account,
           "size": 100,
           "data": "[{\"label\":\"涂胶模板\",\"name\":\"program\",\"id\":\"ae7c588f-bb98-42fd-99ea-f38045bb8f33\",\"data\":{\"version\":\"1.7.1\",\"machine\":\"QRST4-05401500\",\"main_io\":\"3.2M\",\"tool_io\":\"3.2T\",\"author\":\"root\",\"c_time\":\"2019-03-11 13:29:20\",\"m_time\":\"2019-03-26 10:01:12\",\"size\":1858,\"md5\":\"6de553f91ba95db22ecbb02cd16e82c9\",\"style\":\"template\",\"types\":\"\"},\"children\":[{\"label\":\"点到点\",\"name\":\"p2p\",\"data\":{\"x\":400,\"y\":0,\"z\":0,\"rz\":0}}]},{\"label\":\"全局变量\",\"name\":\"g_variable\",\"children\":[{\"label\":\"arm\",\"name\":\"variable\",\"id\":\"fbd6529e-c55e-4f04-a292-9028df0c4208\",\"comment\":\"左右臂\",\"data\":{\"value\":\"right\"}},{\"label\":\"ref_sys\",\"name\":\"variable\",\"id\":\"3efb5952-8635-4432-972a-d4009b45595b\",\"comment\":\"坐标系\",\"data\":{\"value\":\"abc228bc-1aa8-49bb-8b5a-e87567624d02\"}},{\"label\":\"wait_finish\",\"name\":\"variable\",\"id\":\"36481789-c875-4f2e-9bc7-d7730eddb835\",\"comment\":\"等待运动完成\",\"data\":{\"value\":true}},{\"label\":\"j_vel\",\"name\":\"variable\",\"id\":\"43e1d9af-4043-4a82-abf6-d4c8c3457f0a\",\"comment\":\"关节速度\",\"data\":{\"value\":0.5}},{\"label\":\"j_acc\",\"name\":\"variable\",\"id\":\"a9a96478-8766-420b-830b-95e0149c9476\",\"comment\":\"关节加速度\",\"data\":{\"value\":0.5}},{\"label\":\"j_dec\",\"name\":\"variable\",\"id\":\"662539a1-ccb6-460d-8f68-81dde512e283\",\"comment\":\"关节减速度\",\"data\":{\"value\":0.5}},{\"label\":\"l_vel\",\"name\":\"variable\",\"id\":\"24c36be7-a96d-4270-aa2e-63961cb523cb\",\"comment\":\"曲线速度\",\"data\":{\"value\":100}},{\"label\":\"l_acc\",\"name\":\"variable\",\"id\":\"126d0440-7bb3-4caf-922b-68e2a9630fa2\",\"comment\":\"曲线加速度\",\"data\":{\"value\":500}},{\"label\":\"l_dec\",\"name\":\"variable\",\"id\":\"27c204d3-ea96-4f7e-8844-0bec11400b61\",\"comment\":\"曲线减速度\",\"data\":{\"value\":500}},{\"label\":\"rel\",\"name\":\"variable\",\"id\":\"0647b6e6-2259-4f27-a038-bc6a93e8534e\",\"comment\":\"相对逼近\",\"data\":{\"value\":0.5}}]},{\"label\":\"坐标系\",\"name\":\"all_sys\",\"children\":[{\"label\":\"世界坐标系\",\"name\":\"world_sys\",\"id\":\"abc228bc-1aa8-49bb-8b5a-e87567624d02\",\"data\":{\"x\":0,\"y\":0,\"z\":0,\"rx\":0,\"ry\":0,\"rz\":0}}]}]",
-          "version":"1.7.1",
+          "version":"1.7.%s"%n1,
           "types":"焊接",
-          "machine":"QRST4-05401500"
+          "machine":"Q"
         }
         #正确的子程序数据
         #将data序列化为json格式数据，传递给data参数
@@ -53,7 +54,7 @@ class post_request(unittest.TestCase):
         r = requests.get(url, headers=header)
         self.assertEqual(r.status_code,200)
         # print(r.text)
-        print("获取模板程序文件列表")
+        print("成功获取模板程序文件列表")
         if r.json()['total']!=0:
             t=r.json()['data'][0]['id']
         else:
@@ -205,10 +206,71 @@ class post_request(unittest.TestCase):
         data ={"public":bool(1)}  #随机生成两位小数价格
         if url:
             r = requests.patch(url, data=json.dumps(data), headers=header)
-            print(r.text)
+            print('成功将模板列表第一个模板设置为公开：\n%s'%r.text)
             self.assertEqual(r.status_code,200)
         else:
             print('无模板程序设置为公开')
+
+    def test111_sort_addtmpl(self):
+        """测试排序功能，新增模板文件"""
+        print("新添加5个程序文件")
+        for i in range(5):
+            self.test01_create_tmplprogram()   #增加模板
+            self.test10_modifytmpl_price()    #修改价格
+
+    def test112_sort_tmpl(self):
+        """模板程序列表name：程序名 列升序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"name"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test113_sort_tmpl(self):
+        """模板程序列表name：程序名 列降序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-name"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test114_sort_tmpl(self):
+        """模板程序列表version：程序名 列升序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"version"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test115_sort_tmpl(self):
+        """模板程序列表version：程序名 列降序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"version"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test116_sort_tmpl(self):
+        """模板程序列表price：售价 列升序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"price"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test117_sort_tmpl(self):
+        """模板程序列表price：售价 列降序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-price"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
 
     def test12_view_onetmpl(self):
         """查看某个模板程序的详细内容"""
@@ -270,38 +332,38 @@ class post_request(unittest.TestCase):
             print('搜索结果为空')
 
     def test161_filter_recycletmpl(self):
-        """按类型:1 & 机型:2,过滤模板程序回收站列表"""
+        """按类型:焊接 & 机型:Q,过滤模板程序回收站列表"""
         url=self.post_url+'/recycle-bins'
-        payload = {'page[offset]': '0', 'page[limit]': '5','class':'1','model':'2'}
+        payload = {'page[offset]': '0', 'page[limit]': '5','class':'焊接','model':'Q'}
         header = self.header
         r = requests.get(url,params=payload,headers=header)
         self.assertEqual(r.status_code,200)
         if r.json()['total']!=0:
-            print('按类型:1 & 机型:2,过滤模板程序列表前五条内容：\n%s'%r.text)
+            print('按类型:焊接 & 机型:Q,过滤模板程序列表前五条内容：\n%s'%r.text)
         else:
             print('过滤内容为空')
 
     def test162_filter_recycletmpl(self):
-        """按类型:12,过滤模板程序回收站列表"""
+        """按类型:焊接,过滤模板程序回收站列表"""
         url=self.post_url+'/recycle-bins'
-        payload = {'page[offset]': '0', 'page[limit]': '5','class':'12'}
+        payload = {'page[offset]': '0', 'page[limit]': '5','class':'焊接'}
         header = self.header
         r = requests.get(url,params=payload,headers=header)
         self.assertEqual(r.status_code,200)
         if r.json()['total']!=0:
-            print('按类型:12过滤模板程序列表前五条内容：\n%s'%r.text)
+            print('按类型:焊接 过滤模板程序列表前五条内容：\n%s'%r.text)
         else:
             print('过滤内容为空')
 
     def test163_filter_recycletmpl(self):
-        """按机型:qs,过滤模板程序回收站列表"""
+        """按机型:Q,过滤模板程序回收站列表"""
         url=self.post_url+'/recycle-bins'
-        payload = {'page[offset]': '0', 'page[limit]': '5','model':'qs'}
+        payload = {'page[offset]': '0', 'page[limit]': '5','model':'Q'}
         header = self.header
         r = requests.get(url,params=payload,headers=header)
         self.assertEqual(r.status_code,200)
         if r.json()['total']!=0:
-            print('按机型:qs,过滤模板程序列表前五条内容：\n%s'%r.text)
+            print('按机型:Q,过滤模板程序列表前五条内容：\n%s'%r.text)
         else:
             print('过滤内容为空')
 
@@ -322,20 +384,21 @@ class post_request(unittest.TestCase):
         print("get所有模板程序文件id:%s "%t)
         return t
 
-    # def test18_deletetmpl_allID(self):
-    #     """删除所有模板程序文件"""
-    #     r=self.test02_get_tmplprogram()
-    #     if r:
-    #         print("删除列表中所有模板程序：")
-    #         t_list=self.test17_gettmpl_allID()
-    #         for t in t_list:
-    #             url=self.post_url+'/%s'%t  #传入删除程序id
-    #             header = self.header
-    #             r=requests.delete(url,headers=header)
-    #             self.assertEqual(r.status_code,204)
-    #             print('成功删除模板程序文件id：%s'%t)
-    #     else:
-    #         print('模板程序列表已经为空')
+    def test18_deletetmpl_allID(self):
+        """删除所有模板程序文件"""
+        self.test01_create_tmplprogram()
+        r=self.test02_get_tmplprogram()
+        if r:
+            print("删除列表中所有模板程序：")
+            t_list=self.test17_gettmpl_allID()
+            for t in t_list:
+                url=self.post_url+'/%s'%t  #传入删除程序id
+                header = self.header
+                r=requests.delete(url,headers=header)
+                self.assertEqual(r.status_code,204)
+                print('成功删除模板程序文件id：%s'%t)
+        else:
+            print('模板程序列表已经为空')
 
     def test19_recycleRecover_1stID(self):
         """回收站模板程序列表第一个文件还原"""
@@ -350,6 +413,78 @@ class post_request(unittest.TestCase):
             print('还原回收站模板文件id：%s'%t)
         else:
             print('模板程序列表已经为空')
+
+    def test191_sort_recycletmpl(self):
+        """回收站模板程序列表name：程序名 列升序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"name"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test192_sort_recycletmpl(self):
+        """回收站模板程序列表name：程序名 列降序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-name"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test193_sort_recycletmpl(self):
+        """回收站模板程序列表version：程序名 列升序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"version"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test194_sort_recycletmpl(self):
+        """回收站模板程序列表version：程序名 列降序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"version"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test195_sort_recycletmpl(self):
+        """回收站模板程序列表price：售价 列升序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"price"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test196_sort_recycletmpl(self):
+        """回收站模板程序列表price：售价 列降序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-price"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test197_sort_recycletmpl(self):
+        """回收站模板程序列表author：作者 列升序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"author"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test198_sort_recycletmpl(self):
+        """回收站模板程序列表author：作者 列降序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-author"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
 
     def test20_get_recycletmpl_allID(self):
         """得到回收站所有模板程序文件id"""
@@ -383,40 +518,43 @@ class post_request(unittest.TestCase):
             print('模板程序列表已经为空')
 
     def test24_filter_tmplprogram(self):
-        """按类型:1 & 机型:2,过滤模板程序列表"""
+        """按类型:焊接 & 机型:Q,过滤模板程序列表"""
+        print('新建符合过滤条件的模板程序')
+        for i in range(3):
+            self.test01_create_tmplprogram()
         url=self.post_url
-        payload = {'page[offset]': '0', 'page[limit]': '5','class':'1','model':'2'}
+        payload = {'page[offset]': '0', 'page[limit]': '5','class':'焊接','model':'Q'}
         header = self.header
         r = requests.get(url,params=payload,headers=header)
         self.assertEqual(r.status_code,200)
         if r.json()['total']!=0:
-            print('按类型:1 & 机型:2,过滤模板程序列表前五条内容：\n%s'%r.text)
+            print('按类型:焊接 & 机型:Q,过滤模板程序列表前五条内容：\n%s'%r.text)
         else:
-            print('过滤内容为空')
+            print('过滤类型:焊接 & 机型:Q,内容为空')
 
     def test25_filter_tmplprogram(self):
-        """按类型:12,过滤模板程序列表"""
+        """按类型:焊接,过滤模板程序列表"""
         url=self.post_url
-        payload = {'page[offset]': '0', 'page[limit]': '5','class':'12'}
+        payload = {'page[offset]': '0', 'page[limit]': '5','class':'焊接'}
         header = self.header
         r = requests.get(url,params=payload,headers=header)
         self.assertEqual(r.status_code,200)
         if r.json()['total']!=0:
-            print('按类型:12过滤模板程序列表前五条内容：\n%s'%r.text)
+            print('按类型:焊接 过滤模板程序列表前五条内容：\n%s'%r.text)
         else:
-            print('过滤内容为空')
+            print('过滤类型:焊接，内容为空')
 
     def test26_filter_tmplprogram(self):
-        """按机型:qs,过滤模板程序列表"""
+        """按机型:Q,过滤模板程序列表"""
         url=self.post_url
-        payload = {'page[offset]': '0', 'page[limit]': '5','model':'qs'}
+        payload = {'page[offset]': '0', 'page[limit]': '5','model':'Q'}
         header = self.header
         r = requests.get(url,params=payload,headers=header)
         self.assertEqual(r.status_code,200)
         if r.json()['total']!=0:
-            print('按机型:qs,过滤模板程序列表前五条内容：\n%s'%r.text)
+            print('按机型:Q,过滤模板程序列表前五条内容：\n%s'%r.text)
         else:
-            print('过滤内容为空')
+            print('过滤 机型:Q,内容为空')
 
 
     def test27_get_public(self):
@@ -430,6 +568,78 @@ class post_request(unittest.TestCase):
             print(r.text)
         else:
             print('公开模板程序列表为空')
+
+    def test271_sort_publictmpl(self):
+        """回收站模板程序列表name：程序名 列升序排序"""
+        url=self.post_url+'/public'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"name"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test272_sort_publictmpl(self):
+        """公开模板程序列表name：程序名 列降序排序"""
+        url=self.post_url+'/public'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-name"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test273_sort_publictmpl(self):
+        """公开模板程序列表version：程序名 列升序排序"""
+        url=self.post_url+'/public'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"version"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test274_sort_publictmpl(self):
+        """公开模板程序列表version：程序名 列降序排序"""
+        url=self.post_url+'/public'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"version"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test275_sort_publictmpl(self):
+        """公开模板程序列表price：售价 列升序排序"""
+        url=self.post_url+'/public'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"price"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test276_sort_publictmpl(self):
+        """公开模板程序列表price：售价 列降序排序"""
+        url=self.post_url+'/public'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-price"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test277_sort_publictmpl(self):
+        """公开模板程序列表author：作者 列升序排序"""
+        url=self.post_url+'/public'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"author"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test278_sort_publictmpl(self):
+        """公开模板程序列表author：作者 列降序排序"""
+        url=self.post_url+'/public'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-author"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
 
     def test28_get_public(self):
         """得到公开模板程序列表第一页内容"""
@@ -455,7 +665,7 @@ class post_request(unittest.TestCase):
             print("搜索公开模板含 有“模板”的文件，返回第一页内容")
             print(r.text)
         else:
-            print('搜索结果为空')
+            print('搜索公开模板含 有“模板”的文件，结果为空')
 
     def test30_filter_public(self):
         """过滤为免费公开模板程序列表"""
@@ -474,40 +684,47 @@ class post_request(unittest.TestCase):
         """过滤公开模板程序列表：类型"""
         url=self.post_url+'/public'
         header = self.header
-        payload = {'page[offset]': '0', 'page[limit]': '5','class':'12'}
+        payload = {'page[offset]': '0', 'page[limit]': '5','class':'焊接'}
         r = requests.get(url,params=payload, headers=header)
         self.assertEqual(r.status_code,200)
         if r.json()['total']!=0:
-            print("过滤类型：“12”，公开模板程序列表第一页")
+            print("过滤类型：“焊接”，公开模板程序列表第一页")
             print(r.text)
         else:
-            print('过滤类型结果为空')
+            print('过滤类型：“焊接”，结果为空')
 
     def test32_filter_public(self):
         """过滤公开模板程序列表：型号"""
         url=self.post_url+'/public'
         header = self.header
-        payload = {'page[offset]': '0', 'page[limit]': '5','model':'QS','class':'12','price':'free'}
+        payload = {'page[offset]': '0', 'page[limit]': '5','model':'Q','class':'焊接','price':'free'}
         r = requests.get(url,params=payload, headers=header)
         self.assertEqual(r.status_code,200)
         if r.json()['total']!=0:
-            print("过滤型号：“QS”，公开模板程序列表第一页")
+            print("过滤型号：“Q” & 类型：“焊接” & 免费，公开模板程序列表第一页")
             print(r.text)
         else:
-            print('过滤型号结果为空')
+            print('过滤型号：“Q” & 类型：“焊接” & 免费，结果为空')
 
     def test33_filter_public(self):
         """过滤公开模板程序列表：综合过滤条件"""
         url=self.post_url+'/public'
         header = self.header
-        payload = {'page[offset]': '0', 'page[limit]': '5','model':'QS'}
+        payload = {'page[offset]': '0', 'page[limit]': '5','model':'Q'}
         r = requests.get(url,params=payload, headers=header)
         self.assertEqual(r.status_code,200)
         if r.json()['total']!=0:
-            print("过滤型号：“QS” & 类型：“12” & 免费，公开模板程序列表第一页")
+            print("过滤型号：“Q”，公开模板程序列表第一页")
             print(r.text)
         else:
-            print('过滤条件返回结果为空')
+            print('过滤型号：“Q”返回结果为空')
+
+    def test50_clearall(self):
+        """清空模板列表和回收站"""
+        print('清空模板列表')
+        self.test18_deletetmpl_allID()
+        print('清空模板回收站')
+        self.test21_deleterecycle_allID()
 
     def tearDown(self):
         pass

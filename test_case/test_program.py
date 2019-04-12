@@ -166,6 +166,120 @@ class post_request(unittest.TestCase):
         print(r.text)
         self.assertEqual(r.status_code,200)
 
+    def test091_sort_addprograms(self):
+        """测试排序功能，新增程序文件"""
+        print("新添加5个程序文件")
+        for i in range(5):
+            self.test01_createprogram()
+
+    def test092_sort_program(self):
+        """程序列表name：程序名 列升序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"name"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test093_sort_program(self):
+        """程序列表name：程序名 列降序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-name"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test094_sort_program(self):
+        """程序列表version：程序名 列升序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"version"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test095_sort_program(self):
+        """程序列表version：程序名 列降序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"version"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test096_sort_program(self):
+        """程序列表types：类型 列升序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"types"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test097_sort_program(self):
+        """程序列表types：类型 列降序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-types"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test098_sort_program(self):
+        """程序列表machine：型号 列升序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"machine"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test099_sort_program(self):
+        """程序列表machine：型号 列降序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-machine"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test0991_sort_program(self):
+        """程序列表create_at：创建日期 列升序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"create_at"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test0992_sort_program(self):
+        """程序列表create_at：创建日期 列降序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-create_at"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test0993_sort_program(self):
+        """程序列表modify_at：修改日期 列升序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"modify_at"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test0994_sort_program(self):
+        """程序列表modify_at：修改日期 列降序排序"""
+        url=self.post_url
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-modify_at"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
     def test10_view_oneprogram(self):
         """查看某个程序的详细内容"""
         url=self.modify_program()
@@ -240,20 +354,20 @@ class post_request(unittest.TestCase):
         print("get所有程序文件id:%s "%t)
         return t
 
-    # def test16_deleteprogram_allID(self):
-    #     """删除所有程序文件"""
-    #     r=self.test02_getprogram()
-    #     if r:
-    #         print("删除程序列表中所有程序：")
-    #         t_list=self.test15_getprogram_allID()
-    #         for t in t_list:
-    #             url=self.post_url+'/%s'%t  #传入删除程序id
-    #             header = self.header
-    #             r=requests.delete(url,headers=header)
-    #             self.assertEqual(r.status_code,204)
-    #             print('成功删除程序文件id：%s'%t)
-    #     else:
-    #         print('程序列表已经为空')
+    def test16_deleteprogram_allID(self):
+        """删除所有程序文件"""
+        r=self.test02_getprogram()
+        if r:
+            print("删除程序列表中所有程序：")
+            t_list=self.test15_getprogram_allID()
+            for t in t_list:
+                url=self.post_url+'/%s'%t  #传入删除程序id
+                header = self.header
+                r=requests.delete(url,headers=header)
+                self.assertEqual(r.status_code,204)
+                print('成功删除程序文件id：%s'%t)
+        else:
+            print('程序列表已经为空')
 
     def test17_recycleRecover_1stID(self):
         """回收站程序列表第一个文件还原"""
@@ -285,6 +399,114 @@ class post_request(unittest.TestCase):
             print('回收站程序列表为空')
         print("get所有回收站程序文件id:%s "%t)
         return t
+
+    def test181_sort_recycleprogram(self):
+        """回收站程序列表name：程序名 列升序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"name"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test182_sort_recycleprogram(self):
+        """回收站程序列表name：程序名 列降序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-name"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test183_sort_recycleprogram(self):
+        """回收站程序列表version：程序名 列升序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"version"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test184_sort_recycleprogram(self):
+        """回收站程序列表version：程序名 列降序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"version"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test185_sort_recycleprogram(self):
+        """回收站程序列表types：类型 列升序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"types"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test186_sort_recycleprogram(self):
+        """回收站程序列表types：类型 列降序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-types"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test187_sort_recycleprogram(self):
+        """回收站程序列表machine：型号 列升序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"machine"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test188_sort_recycleprogram(self):
+        """回收站程序列表machine：型号 列降序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-machine"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test189_sort_recycleprogram(self):
+        """回收站程序列表create_at：创建日期 列升序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"create_at"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test1891_sort_recycleprogram(self):
+        """回收站程序列表create_at：创建日期 列降序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-create_at"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test1892_sort_recycleprogram(self):
+        """回收站程序列表modify_at：修改日期 列升序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"modify_at"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
+
+    def test1893_sort_recycleprogram(self):
+        """回收站程序列表modify_at：修改日期 列降序排序"""
+        url=self.post_url+'/recycle-bins'
+        payload = {'page[offset]': '0', 'page[limit]': '5','addition':'{"sort":"-modify_at"}'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        print(r.text)
+        self.assertEqual(r.status_code,200)
 
     def test19_deleterecycle_allID(self):
         """彻底删除回收站的所有程序文件"""
