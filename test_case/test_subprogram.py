@@ -61,6 +61,19 @@ class post_request(unittest.TestCase):
             print('子程序列表为空')
         return t
 
+    def getsub_name(self):
+        """得到第一个程序包中name字段"""
+        url=self.post_url
+        header = self.header
+        r = requests.get(url, headers=header)
+        self.assertEqual(r.status_code,200)
+        print("获取程序文件列表")
+        if r.json()['total']!=0:
+            t=r.json()['data'][0]['name']
+        else:
+            t=''
+        return t
+
     def test20_get_subprogram(self):
         """分页显示子程序文件列表：显示第一页，每页显示五条记录,并且排序"""
         url=self.post_url
@@ -164,6 +177,57 @@ class post_request(unittest.TestCase):
         r = requests.patch(url, data=json.dumps(data), headers=header)
         print(r.text)
         self.assertEqual(r.status_code,200)
+
+    def test0900_download_subs(self):
+        """多个子程序文件下载:获取下载文件包名"""
+        oneid=self.test02_get_subprogram()
+        self.rt=readconfig.ReadConfig()
+        API=self.rt.get_api()
+        Prefix=self.rt.get_prefix()
+        url = '%s%s/download/subprograms'%(API,Prefix)
+        header = self.header
+        data=[
+            '%s'%oneid
+        ]
+        r = requests.post(url,data=json.dumps(data),headers=header)
+        self.assertEqual(r.status_code,200)
+        print(r.text)
+        oneidname=r.json()['data'][0]['name']
+        print('返回第一个子程序文件下载包name: %s'%oneidname)
+        return oneidname
+
+    def test0901_download_subs(self):
+        """多个子程序文件下载:下载文件"""
+        name=self.test0900_download_subs()
+        self.rt=readconfig.ReadConfig()
+        API=self.rt.get_api()
+        Prefix=self.rt.get_prefix()
+        self.t=get_token.GetToken()
+        token=self.t.test_token()
+        url = '%s%s/download/subprograms/%s'%(API,Prefix,name)
+        payload = {'token': token, 'mid': '2468aeb5eb109b45b3e29abcbf01867d','platform':'web'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        self.assertEqual(r.status_code,200)
+        print("多个子程序文件下载接口调用成功：")
+        print(r.text)
+
+    def test0902_download_onepsub(self):
+        """仅下载单个程序文件"""
+        pid=self.getsub_name()
+        self.rt=readconfig.ReadConfig()
+        API=self.rt.get_api()
+        Prefix=self.rt.get_prefix()
+        self.t=get_token.GetToken()
+        token=self.t.test_token()
+        url = '%s%s/download/subprograms/%s.robot'%(API,Prefix,pid)
+        payload = {'token': token, 'mid': '2468aeb5eb109b45b3e29abcbf01867d','platform':'web'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        self.assertEqual(r.status_code,200)
+        print("单个子程序文件下载接口调用成功：")
+        print(r.text)
+
 
     def test091_sort_addsub(self):
         """测试排序功能，新增子程序文件"""
@@ -526,6 +590,9 @@ class post_request(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+    # a=post_request()
+    # a.setUp()
+    # a.test0900_download_onesub()
 
 
 

@@ -189,7 +189,7 @@ class post_request(unittest.TestCase):
         """修改模板程序price字段"""
         url=self.modify_tmplprogram()
         header = self.header
-        a=random.uniform(1,500)
+        a=random.uniform(100,500)
         n=round(a,2)
         data = {"price": n}  #随机生成两位小数价格
         if url:
@@ -203,7 +203,7 @@ class post_request(unittest.TestCase):
         """修改模板程序为公开"""
         url=self.modify_tmplprogram()
         header = self.header
-        data ={"public":bool(1)}  #随机生成两位小数价格
+        data ={"public":bool(1)}
         if url:
             r = requests.patch(url, data=json.dumps(data), headers=header)
             print('成功将模板列表第一个模板设置为公开：\n%s'%r.text)
@@ -564,10 +564,78 @@ class post_request(unittest.TestCase):
         r = requests.get(url, headers=header)
         self.assertEqual(r.status_code,200)
         if r.json()['total']!=0:
-            print("获取公开模板程序文件列表：")
-            print(r.text)
+            print("成功获取公开模板程序文件列表。")
+            t=r.json()['data'][0]['id']
+        else:
+            print('公开模板程序列表为空。')
+            t=''
+        return t
+
+    def get_public_name(self):
+        """得到公开模板程序列表第一个文件名字"""
+        url=self.post_url+'/public'
+        header = self.header
+        r = requests.get(url, headers=header)
+        self.assertEqual(r.status_code,200)
+        if r.json()['total']!=0:
+            t=r.json()['data'][0]['name']
         else:
             print('公开模板程序列表为空')
+            t=''
+        return t
+
+    def test2701_download_tmpls(self):
+        """公开模板列表中选择多个文件下载:获取下载文件包名"""
+        oneid=self.test27_get_public()
+        self.rt=readconfig.ReadConfig()
+        API=self.rt.get_api()
+        Prefix=self.rt.get_prefix()
+        url = '%s%s/download/tmplprograms'%(API,Prefix)
+        header = self.header
+        data=[
+            '%s'%oneid
+        ]
+        r = requests.post(url,data=json.dumps(data),headers=header)
+        self.assertEqual(r.status_code,200)
+        print(r.text)
+        oneidname=r.json()['data']['name']
+        print('返回第一个公开模板程序文件下载包name: %s'%oneidname)
+        price=r.json()['data']['total_price']
+        print('下载模板需要的费用：%s'%price)
+        return oneidname
+
+    def test2702_download_tmpls(self):
+        """公开模板列表中选择多个文件下载:下载文件"""
+        name=self.test2701_download_tmpls()
+        self.rt=readconfig.ReadConfig()
+        API=self.rt.get_api()
+        Prefix=self.rt.get_prefix()
+        self.t=get_token.GetToken()
+        token=self.t.test_token()
+        url = '%s%s/download/tmplprograms/%s'%(API,Prefix,name)
+        payload = {'token': token, 'mid': '03767159816cac28b1e3f2a0e0014b2b','platform':'web'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        self.assertEqual(r.status_code,200)
+        print("多个模板程序文件打包下载接口调用成功：")
+        print(r.text)
+
+    def test2703_download_onetmpl(self):
+        """仅下载单个模板程序文件"""
+        pid=self.get_public_name()
+        self.rt=readconfig.ReadConfig()
+        API=self.rt.get_api()
+        Prefix=self.rt.get_prefix()
+        self.t=get_token.GetToken()
+        token=self.t.test_token()
+        url = '%s%s/download/tmplprograms/%s.robot'%(API,Prefix,pid)
+        payload = {'token': token, 'mid': '03767159816cac28b1e3f2a0e0014b2b','platform':'web'}
+        header = self.header
+        r = requests.get(url,params=payload,headers=header)
+        self.assertEqual(r.status_code,200)
+        print("单个模板程序文件下载接口调用成功：")
+        print(r.text)
+
 
     def test271_sort_publictmpl(self):
         """回收站模板程序列表name：程序名 列升序排序"""
@@ -736,6 +804,7 @@ if __name__ == "__main__":
     # # f.test_create_tmplprogram_01()
     # f.modify_tmplprogram()
     # f.test_modifytmpl_public_11()
+    # f.test2700_download_onetmpl()
 
 
 
