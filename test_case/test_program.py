@@ -180,7 +180,7 @@ class post_request(unittest.TestCase):
         print(r.text)
         self.assertEqual(r.status_code,200)
 
-    def test0900_download_programs(self):
+    def download_programs(self):
         """多文件下载:获取下载文件包名"""
         oneid=self.test02_getprogram()
         self.rt=readconfig.ReadConfig()
@@ -200,7 +200,7 @@ class post_request(unittest.TestCase):
 
     def test0901_download_programs(self):
         """多文件下载:下载文件"""
-        name=self.test0900_download_programs()
+        name=self.download_programs()
         self.rt=readconfig.ReadConfig()
         API=self.rt.get_api()
         Prefix=self.rt.get_prefix()
@@ -594,7 +594,7 @@ if __name__ == "__main__":
     unittest.main()
     # a=post_request()
     # a.setUp()
-    # a.test0900_download_programs()
+    # a.testdownload_programs()
     # a.test0901_download_programs()
     # a.test0902_download_oneprogram()
 

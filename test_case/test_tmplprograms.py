@@ -19,7 +19,7 @@ class post_request(unittest.TestCase):
         token=self.t.test_token()
         self.header= {
         'content-type': "application/json",
-        'authorization':token,
+        'authorization':"%s"%token,
         'x-platform':"web",
         'x-module-id': "03767159816cac28b1e3f2a0e0014b2b"
         }
@@ -584,7 +584,7 @@ class post_request(unittest.TestCase):
             t=''
         return t
 
-    def test2701_download_tmpls(self):
+    def download_tmpls(self):
         """公开模板列表中选择多个文件下载:获取下载文件包名"""
         oneid=self.test27_get_public()
         self.rt=readconfig.ReadConfig()
@@ -593,7 +593,7 @@ class post_request(unittest.TestCase):
         url = '%s%s/download/tmplprograms'%(API,Prefix)
         header = self.header
         data=[
-            '%s'%oneid
+            "%s"%oneid
         ]
         r = requests.post(url,data=json.dumps(data),headers=header)
         self.assertEqual(r.status_code,200)
@@ -604,9 +604,9 @@ class post_request(unittest.TestCase):
         print('下载模板需要的费用：%s'%price)
         return oneidname
 
-    def test2702_download_tmpls(self):
+    def test2702_download_tmpls(self):    # 模板程序不支持多文件下载接口
         """公开模板列表中选择多个文件下载:下载文件"""
-        name=self.test2701_download_tmpls()
+        name=self.download_tmpls()
         self.rt=readconfig.ReadConfig()
         API=self.rt.get_api()
         Prefix=self.rt.get_prefix()
@@ -616,20 +616,21 @@ class post_request(unittest.TestCase):
         payload = {'token': token, 'mid': '03767159816cac28b1e3f2a0e0014b2b','platform':'web'}
         header = self.header
         r = requests.get(url,params=payload,headers=header)
-        self.assertEqual(r.status_code,200)
-        print("多个模板程序文件打包下载接口调用成功：")
+        print("多个模板文件下载接口调用返回：")
         print(r.text)
+        self.assertEqual(r.status_code,200)
 
     def test2703_download_onetmpl(self):
         """仅下载单个模板程序文件"""
-        pid=self.get_public_name()
+        name=self.get_public_name()
+        pid=self.test27_get_public()
         self.rt=readconfig.ReadConfig()
         API=self.rt.get_api()
         Prefix=self.rt.get_prefix()
         self.t=get_token.GetToken()
         token=self.t.test_token()
-        url = '%s%s/download/tmplprograms/%s.robot'%(API,Prefix,pid)
-        payload = {'token': token, 'mid': '03767159816cac28b1e3f2a0e0014b2b','platform':'web'}
+        url = '%s%s/download/tmplprograms/%s.robot'%(API,Prefix,name)
+        payload = {'token': token, 'pid':pid,'mid': '03767159816cac28b1e3f2a0e0014b2b','platform':'web'}
         header = self.header
         r = requests.get(url,params=payload,headers=header)
         self.assertEqual(r.status_code,200)
@@ -804,7 +805,9 @@ if __name__ == "__main__":
     # # f.test_create_tmplprogram_01()
     # f.modify_tmplprogram()
     # f.test_modifytmpl_public_11()
-    # f.test2700_download_onetmpl()
+    # f.download_tmpls()
+    # f.test2702_download_tmpls()
+    # f.test2703_download_onetmpl()
 
 
 
