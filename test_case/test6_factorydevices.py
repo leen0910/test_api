@@ -24,7 +24,7 @@ class post_request(unittest.TestCase):
         'x-module-id': "a07120661734420a4f577898f46e4fa7"
         }
 
-    def test01_createprogram(self):
+    def test01_create_factorydevices(self):
         """读取本地测试设备文件，添加新的出厂设备"""
         devices=get_device.GetDevices().test_readdevices()
         url=self.post_url
@@ -41,7 +41,7 @@ class post_request(unittest.TestCase):
             }
             r = requests.post(url, data=json.dumps(data), headers=header)
             self.assertEqual(r.status_code,201)
-            print('成功添加设备：%s'%device[0])
+            print('成功添加设备：%s'%device[1])
             print(r.text)
 
     def test02_newdevices_allID(self):
@@ -78,7 +78,7 @@ class post_request(unittest.TestCase):
             }
             r = requests.post(url, data=json.dumps(data), headers=header)
             self.assertEqual(r.json()['code'],4115)
-            print('不可以重复添加设备：%s'%device[0])
+            print('不可以重复添加设备：%s'%device[1])
             print(r.json()['error'])
 
     def test04_create_invalid(self):
