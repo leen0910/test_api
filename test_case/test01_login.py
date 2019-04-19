@@ -6,6 +6,7 @@ from common import readconfig
 from common import writeconfig
 
 class post_request(unittest.TestCase):
+    """找回密码，邮箱验证流程需要手工验证。"""
     def setUp(self):
         self.rt=readconfig.ReadConfig()
         API=self.rt.get_api()
@@ -16,6 +17,28 @@ class post_request(unittest.TestCase):
     'x-platform': "web",
     } #根据实际内容
 
+    def common_login(self,account,pw):
+        """通用登录接口调用方法"""
+        url=self.post_url
+        header = self.header
+        data = {"account":account,"password":pw} #正确的登录帐号
+        r = requests.post(url, data=json.dumps(data), headers=header)
+        self.assertEqual(r.status_code,200)
+        token=r.headers["authorization"]
+        if r.json()['data'][0]['reset']==bool(1):
+            print('用户是初始密码登录,返回account,pw,token到config.txt文件。')
+            obj=writeconfig.rwconfig()
+            path='C:\\Users\\test\\AppData\\Local\\Programs\\Python\\Python36\\autotest\\test_api\\info.txt'
+            obj.modifyconfig(path,'info','comm_user',str(account))
+            obj.modifyconfig(path,'info','comm_user_pw',str(pw))
+            obj.modifyconfig(path,'info','comm_user_token',str(token))
+        else:
+            print('用户不是初始密码登录。')
+            id=r.json()['data'][0]['id']
+            obj=writeconfig.rwconfig()
+            obj.writeconfig('info','my_id',str(id))
+
+
     def test01_login(self):
         """正确用户名密码登录"""
         url=self.post_url
@@ -23,14 +46,13 @@ class post_request(unittest.TestCase):
         data = {"account":"root","password":"root09"} #正确的登录帐号
         #将data序列化为json格式数据，传递给data参数
         r = requests.post(url, data=json.dumps(data), headers=header)
-        print(r.text)
         self.assertEqual(r.status_code,200)
         if r.json()['total']==1:
-            t=r.json()['data'][0]['id']
-            obj=writeconfig.rwconfig()
-            obj.writeconfig('info','my_id',str(t))
+            print('帐号登录成功！')
         else:
             print("登录帐号异常")
+        print(r.text)
+
 
         # token=r.headers["authorization"]
         # print(token)

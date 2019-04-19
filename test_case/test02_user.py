@@ -10,7 +10,7 @@ from common import writeconfig
 
 
 class post_request(unittest.TestCase):
-    """初始帐号登录流程需要手工验证"""
+    """1、初始帐号登录流程需要手工验证。2、上传文件和个人信息--地址加载百度地图是第三方接口，需要手工验证。"""
     addusers=[]
     def setUp(self):
         self.rt=readconfig.ReadConfig()
@@ -25,6 +25,39 @@ class post_request(unittest.TestCase):
         'x-platform':"web",
         'x-module-id': "7d94de1cdba7512a76fd42d71f537bfd"
         }
+
+
+    def common_add_users(self):
+        """添加初始用户方法。与前端添加用户一致数据。"""
+        url=self.post_url
+        header = self.header
+        self.random=random_char.RandomChar()
+        n=self.random.random_char([],4,2)   # 生成4位长度混合字符串
+        data={
+            "account": "user_%s"%n,
+            "password": "123456",
+            "role": 0,
+            "activated": bool(1),
+            "company": {
+                "name": "qx",
+                "address": {
+                    "province": "浙江",
+                    "city": "杭州市",
+                    "district": "西湖区",
+                    "remark": "公司地址测试：%s"%n
+                }
+            }
+        }
+        r = requests.post(url, data=json.dumps(data), headers=header)
+        self.assertEqual(r.status_code,201)
+        if r.json()['total']==1:
+            print('成功添加一个初始用户：%s'%r.json()['data'][0]['account'])
+        else:
+            print('添加用户为空')
+
+        return r
+
+
 
     def test01_add_users(self):
         """添加新用户：管理员帐号/激活"""
@@ -63,7 +96,6 @@ class post_request(unittest.TestCase):
                 "remark": "个人地址测试_%s"%n
             }
         }
-        #正确的子程序数据
         #将data序列化为json格式数据，传递给data参数
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
@@ -108,7 +140,6 @@ class post_request(unittest.TestCase):
                 "remark": "个人地址测试_%s"%n
             }
         }
-        #正确的子程序数据
         #将data序列化为json格式数据，传递给data参数
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
@@ -153,7 +184,6 @@ class post_request(unittest.TestCase):
                 "remark": "个人地址测试_%s"%n
             }
         }
-        #正确的子程序数据
         #将data序列化为json格式数据，传递给data参数
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
@@ -199,7 +229,6 @@ class post_request(unittest.TestCase):
                 "remark": "个人地址测试_%s"%n
             }
         }
-        #正确的子程序数据
         #将data序列化为json格式数据，传递给data参数
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
@@ -245,7 +274,6 @@ class post_request(unittest.TestCase):
                 "remark": "个人地址测试_%s"%n
             }
         }
-        #正确的子程序数据
         #将data序列化为json格式数据，传递给data参数
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
@@ -291,7 +319,6 @@ class post_request(unittest.TestCase):
                 "remark": "个人地址测试_%s"%n
             }
         }
-        #正确的子程序数据
         #将data序列化为json格式数据，传递给data参数
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)

@@ -1,3 +1,8 @@
 [info]
-my_id = 5c75ee66d6582a00058e464b
+name = 12346
+ini_user = user_6941
+ini_user_id = 5cb9a9c6b1cc5e0005920479
+comm_user = user_6941
+comm_user_pw = 123456
+comm_user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjYjlhOWM2YjFjYzVlMDAwNTkyMDQ3OSIsInV1aWQiOiI1NmIzODIyNS1iNjExLTQ5MGYtOWI5YS0yZjBjZTkyZTc1MzMiLCJpc3MiOiJIWlFYLVJvYm90In0.9cGgKBL0fPW7yx6DhKYgnTsvkiy0PPdriJammso1z40
 

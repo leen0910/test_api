@@ -61,9 +61,9 @@ class rwconfig:
 if __name__=="__main__":
     obj = rwconfig()
     # obj.readconfig()
-    path = r"C:\Users\test\AppData\Local\Programs\Python\Python36\autotest\test_api\config.txt"
+    path = r"C:\Users\test\AppData\Local\Programs\Python\Python36\autotest\test_api\info.txt"
     t=12346
-    # obj.writeconfig('name',str(t))
-    obj.modifyconfig(path,'base','name2','66666')
+    obj.writeconfig('info1','name',str(t))
+    # obj.modifyconfig(path,'info','name2','66666')
 
 

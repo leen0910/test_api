@@ -6,6 +6,7 @@ from common import readconfig
 from common import get_token
 
 class post_request(unittest.TestCase):
+    """上传文件是七牛的第三方接口，暂时不支持自动化，并且前前端调用有逻辑问题，需要手工验证"""
     def setUp(self):
         self.rt=readconfig.ReadConfig()
         API=self.rt.get_api()
