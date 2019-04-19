@@ -10,6 +10,7 @@ from common import writeconfig
 
 
 class post_request(unittest.TestCase):
+    """初始帐号登录流程需要手工验证"""
     addusers=[]
     def setUp(self):
         self.rt=readconfig.ReadConfig()

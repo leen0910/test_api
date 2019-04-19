@@ -45,7 +45,9 @@ class post_request(unittest.TestCase):
         data ={
             "host": "smtp.139.com",
             "username": "15958189624@139.com",
-            "password": "83276015"
+            "password": "83276015",
+            "port": 465,
+            "ssl": bool(1)
         }
         r = requests.patch(url, data=json.dumps(data), headers=header)
         self.assertEqual(r.status_code,202)

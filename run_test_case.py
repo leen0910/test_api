@@ -11,7 +11,7 @@ api_v=prefix.replace('/','')
 test_dir ='./test_case'
 test_dir1 ='./report'
 discover = unittest.defaultTestLoader.discover(test_dir, pattern='test*.py')
-# 定义带有当前测试时间的报告，防止前一次报告被覆盖
+# 定义带有当前测试时间的报告
 now = time.strftime("%Y-%m-%d %H_%M_%S")
 filename = test_dir1 + '/' + now + 'result.html'
 # 二进制打开，准备写入文件

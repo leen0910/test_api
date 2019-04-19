@@ -368,7 +368,6 @@ class post_request(unittest.TestCase):
     def test24_countby_prov(self):
         """遍历统计各个省份下的设备总数和公司总数"""
         provs=self.test23_return_provices()
-        prov_list=[]
         for prov in provs:
             url=self.post_url+'/%s'%prov
             header = self.header
