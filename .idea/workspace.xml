@@ -694,7 +694,13 @@
       <option name="project" value="LOCAL" />
       <updated>1555662027149</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="增加newuser_login初始密码用户登录流程验证。&#10;补充添加用户，用户登录的通用方法。">
+      <created>1555671591334</created>
+      <option name="number" value="00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1555671591334</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -772,7 +778,8 @@
     <MESSAGE value="1、封装获取列表第一个条目的id值，和所有条目的id值list的方法。&#10;2、完成download接口的用例。" />
     <MESSAGE value="重命名，执行用例顺序" />
     <MESSAGE value="修改 test07_authdevices文件中调用Py文件名错误的bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改 test07_authdevices文件中调用Py文件名错误的bug" />
+    <MESSAGE value="增加newuser_login初始密码用户登录流程验证。&#10;补充添加用户，用户登录的通用方法。" />
+    <option name="LAST_COMMIT_MESSAGE" value="增加newuser_login初始密码用户登录流程验证。&#10;补充添加用户，用户登录的通用方法。" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
