@@ -5,7 +5,7 @@ import unittest
 from common import readconfig
 from common import get_token
 from common import get_device
-from test_case import test6_factorydevices
+from test_case import test06_factorydevices
 import random
 
 
@@ -420,7 +420,7 @@ class post_request(unittest.TestCase):
 
     def test27_delete_factorydevices(self):
         """删除新添加设备的出厂设备记录"""
-        tr=test6_factorydevices.post_request()
+        tr=test06_factorydevices.post_request()
         tr.setUp()
         tr.delete_allid()
 
