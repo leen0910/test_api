@@ -1,8 +1,8 @@
 [info]
 name = 12346
-ini_user = user_6941
-ini_user_id = 5cb9a9c6b1cc5e0005920479
-comm_user = user_6941
-comm_user_pw = 123456
-comm_user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjYjlhOWM2YjFjYzVlMDAwNTkyMDQ3OSIsInV1aWQiOiI1NmIzODIyNS1iNjExLTQ5MGYtOWI5YS0yZjBjZTkyZTc1MzMiLCJpc3MiOiJIWlFYLVJvYm90In0.9cGgKBL0fPW7yx6DhKYgnTsvkiy0PPdriJammso1z40
+ini_user = user_it13
+ini_user_id = 5cb9aa90fc711f000505a3f6
+comm_user = user_it13
+comm_user_pw = 666666
+comm_user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjYjlhYTkwZmM3MTFmMDAwNTA1YTNmNiIsInV1aWQiOiI0YWNhNmRlNy03MWY2LTQ5YjctOGRlNC1kOWUwZjU3MzlkYjEiLCJ1c2VybmFtZSI6IiIsImlzcyI6IkhaUVgtUm9ib3QifQ.8Iq5jBMwf41yQibWIYPpfiXp99_qkJGGrndBPriFYF4
 

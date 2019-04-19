@@ -3,14 +3,13 @@ import requests
 import json
 import unittest
 from common import readconfig
-from common import get_token
-from common import random_char
 from common import writeconfig
 from test_case import test02_user
 from test_case import test01_login
 import configparser
 
 class post_request(unittest.TestCase):
+    """初始密码用户重置，是一个测试流程，具体接口之间的调用逻辑"""
     def test01_create_newusre(self):
         """先添加新用户，密码为初始密码"""
         t=test02_user.post_request()

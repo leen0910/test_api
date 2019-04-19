@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c888b711-733d-424a-881a-4c3c90029fc7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test_case/test11_newuser_login.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/common/writeconfig.py" afterPath="$PROJECT_DIR$/common/writeconfig.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.txt" afterPath="$PROJECT_DIR$/config.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/info.txt" afterPath="$PROJECT_DIR$/info.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_case/test01_login.py" afterPath="$PROJECT_DIR$/test_case/test01_login.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_case/test02_user.py" afterPath="$PROJECT_DIR$/test_case/test02_user.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_case/test08_smtps.py" afterPath="$PROJECT_DIR$/test_case/test08_smtps.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_case/test11_newuser_login.py" afterPath="$PROJECT_DIR$/test_case/test11_newuser_login.py" />
     </list>
     <ignored path="test_api.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,10 +26,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="config.txt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="config.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.11342155">
+            <state vertical-scroll-proportion="0.0">
               <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
               <folding />
             </state>
@@ -43,7 +40,7 @@
         <entry file="file://$PROJECT_DIR$/info.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="6" column="30" selection-start-line="6" selection-start-column="230" selection-end-line="7" selection-end-column="0" />
+              <caret line="6" column="30" selection-start-line="6" selection-start-column="249" selection-end-line="7" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -71,11 +68,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test11_newuser_login.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="test11_newuser_login.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test_case/test11_newuser_login.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="55" column="9" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.30245748">
+              <caret line="11" column="24" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
               <folding>
                 <element signature="e#15#30#0" expanded="true" />
               </folding>
@@ -183,8 +180,8 @@
         <option value="$PROJECT_DIR$/common/writeconfig.py" />
         <option value="$PROJECT_DIR$/test_case/test01_login.py" />
         <option value="$PROJECT_DIR$/info.txt" />
-        <option value="$PROJECT_DIR$/test_case/test11_newuser_login.py" />
         <option value="$PROJECT_DIR$/config.txt" />
+        <option value="$PROJECT_DIR$/test_case/test11_newuser_login.py" />
       </list>
     </option>
   </component>
@@ -296,7 +293,7 @@
       <recent name="C:\Users\test\AppData\Local\Programs\Python\Python36\autotest\test_api\test_case" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test11_newuser_login">
+  <component name="RunManager" selected="Python.run_test_case">
     <configuration default="false" name="run_test_case" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -513,9 +510,9 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.test11_newuser_login" />
-        <item index="1" class="java.lang.String" itemvalue="Python.writeconfig" />
-        <item index="2" class="java.lang.String" itemvalue="Python.run_test_case" />
+        <item index="0" class="java.lang.String" itemvalue="Python.run_test_case" />
+        <item index="1" class="java.lang.String" itemvalue="Python.test11_newuser_login" />
+        <item index="2" class="java.lang.String" itemvalue="Python.writeconfig" />
         <item index="3" class="java.lang.String" itemvalue="Python.test90_downloads" />
         <item index="4" class="java.lang.String" itemvalue="Python.test0_URL" />
       </list>
@@ -700,14 +697,20 @@
       <option name="project" value="LOCAL" />
       <updated>1555671591334</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="增加newuser_login初始密码用户登录流程验证。&#10;补充添加用户，用户登录的通用方法。">
+      <created>1555671614151</created>
+      <option name="number" value="00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1555671614151</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18545838" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18545838" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
@@ -1100,26 +1103,26 @@
     <entry file="file://$PROJECT_DIR$/info.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="30" selection-start-line="6" selection-start-column="230" selection-end-line="7" selection-end-column="0" />
+          <caret line="6" column="30" selection-start-line="6" selection-start-column="249" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test_case/test11_newuser_login.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="55" column="9" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.30245748">
+          <caret line="11" column="24" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
           <folding>
             <element signature="e#15#30#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11342155">
-          <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
