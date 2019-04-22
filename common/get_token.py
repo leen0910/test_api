@@ -46,9 +46,6 @@ class GetToken:
         return loginuser_id
 
 
-    def tearDown(self):
-        pass
-
 if __name__ == "__main__":
     test=GetToken()
     print(test.test_token())

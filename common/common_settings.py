@@ -59,8 +59,6 @@ class post_request():
             print('module_id: %s邮箱订阅未清空：%s'%(module_id,r.json()['data'][0]['content']))
 
 
-    def tearDown(self):
-        pass
 
 if __name__ == "__main__":
     module_id="a8f3e2b3d7b38bdbb2bb13ea3508792d"
