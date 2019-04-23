@@ -5,11 +5,15 @@ import unittest
 from common import readconfig
 from common import get_token
 from common import get_device
+from common import get_list_id
+from common import writeconfig
 import random
-
+import configparser
+import ast
 
 
 class post_request(unittest.TestCase):
+    device_id=[]
     def setUp(self):
         self.rt=readconfig.ReadConfig()
         API=self.rt.get_api()
@@ -41,24 +45,32 @@ class post_request(unittest.TestCase):
             }
             r = requests.post(url, data=json.dumps(data), headers=header)
             self.assertEqual(r.status_code,201)
-            print('成功添加设备：%s'%device[1])
-            print(r.text)
+            if r.json()['total']!=0:
+                self.device_id.append(r.json()['data'][0]['id'])
+                print('成功添加设备：%s'%device[1])
+            else:
+                print('添加数据错误：\n%s'%r.text)
 
     def test02_newdevices_allID(self):
         """上个用例添加新设备的id号返回"""
-        url=self.post_url
-        header = self.header
-        r = requests.get(url, headers=header)
-        self.assertEqual(r.status_code,200)
-        n=r.json()['total']
-        if n!=0:
-            t=[]
-            for index in range(0,5):       #个数写死，设备文件中的设备数为5
-                t.append(r.json()['data'][index]['id'])
-        else:
-            t=''
-            print('设备列表为空')
-        print("get添加设备的id:%s "%t)
+        # url=self.post_url
+        # header = self.header
+        # r = requests.get(url, headers=header)
+        # self.assertEqual(r.status_code,200)
+        # n=r.json()['total']
+        # if n!=0:
+        #     t=[]
+        #     for index in range(0,5):       #个数写死，设备文件中的设备数为5
+        #         t.append(r.json()['data'][index]['id'])
+        # else:
+        #     t=''
+        #     print('设备列表为空')
+        # print("get添加设备的id:%s "%t)
+        t=self.device_id
+        print('上个用例添加新设备的id号: %s'%t)
+        obj = writeconfig.rwconfig()
+        path = r"C:\Users\test\AppData\Local\Programs\Python\Python36\autotest\test_api\info.txt"
+        obj.modifyconfig(path,'devices','device_id',str(t))
         return t
 
     def test03_create_exists(self):
@@ -246,94 +258,116 @@ class post_request(unittest.TestCase):
         self.assertEqual(r.status_code,200)
         print('过滤“已报废”的设备列表：\n%s'%r.text)
 
+    def get_oneid(self):
+        print('先获得某一个出厂设备的id。')
+        url1=self.post_url
+        header = self.header
+        rt=get_list_id.GetListID()
+        id=rt.test_getoneid(url1,header)
+        return id
+
+
+
     def test21_get_one(self):
         """查看某个id详细信息"""
-        t=self.test02_newdevices_allID()
-        t1=t[0]
-        url=self.post_url+'/%s'%t1
+        t=self.get_oneid()
+        url=self.post_url+'/%s'%t
         header = self.header
         r = requests.get(url, headers=header)
         self.assertEqual(r.status_code,200)
-        print('id号：%s 设备详细信息：\n%s'%(t1,r.text))
+        print('id号：%s 设备详细信息：\n%s'%(t,r.text))
 
     def test22_updateone_status(self):
         """更新设备信息：状态改为维修中"""
-        t=self.test02_newdevices_allID()
-        t1=t[0]
-        url=self.post_url+'/%s'%t1
+        t=self.get_oneid()
+        url=self.post_url+'/%s'%t
         header = self.header
         data={
             "status":2
         }
         r = requests.patch(url,data=json.dumps(data), headers=header)
         self.assertEqual(r.status_code,201)
-        print('id号：%s 状态已更新：\n%s'%(t1,r.text))
+        print('id号：%s 状态已更新：\n%s'%(t,r.text))
 
     def test23_updateone_ctrl_ver(self):
         """更新设备信息：控制器版本"""
-        t=self.test02_newdevices_allID()
-        t1=t[0]
-        url=self.post_url+'/%s'%t1
+        t=self.get_oneid()
+        url=self.post_url+'/%s'%t
         header = self.header
         data={
             "ctrl_ver": "修改_V.1"
         }
         r = requests.patch(url,data=json.dumps(data), headers=header)
         self.assertEqual(r.status_code,201)
-        print('id号：%s 控制器版本已更新：\n%s'%(t1,r.text))
+        print('id号：%s 控制器版本已更新：\n%s'%(t,r.text))
 
     def test24_updateone_driver_ver(self):
         """更新设备信息：驱动器版本"""
-        t=self.test02_newdevices_allID()
-        t1=t[0]
-        url=self.post_url+'/%s'%t1
+        t=self.get_oneid()
+        url=self.post_url+'/%s'%t
         header = self.header
         data={
             "driver_ver": "修改_V8"
         }
         r = requests.patch(url,data=json.dumps(data), headers=header)
         self.assertEqual(r.status_code,201)
-        print('id号：%s 驱动器版本已更新：\n%s'%(t1,r.text))
+        print('id号：%s 驱动器版本已更新：\n%s'%(t,r.text))
 
     def test25_updateone_product_date(self):
         """更新设备信息：出厂日期"""
-        t=self.test02_newdevices_allID()
-        t1=t[0]
-        url=self.post_url+'/%s'%t1
+        t=self.get_oneid()
+        url=self.post_url+'/%s'%t
         header = self.header
         data={
             "product_date": "2017-07-07"
         }
         r = requests.patch(url,data=json.dumps(data), headers=header)
         self.assertEqual(r.status_code,201)
-        print('id号：%s 出厂日期已更新：\n%s'%(t1,r.text))
+        print('id号：%s 出厂日期已更新：\n%s'%(t,r.text))
 
     def test26_updateone_maintain_times(self):
         """更新设备信息：维修次数"""
-        t=self.test02_newdevices_allID()
-        t1=t[0]
-        url=self.post_url+'/%s'%t1
+        t=self.get_oneid()
+        url=self.post_url+'/%s'%t
         header = self.header
         data={
             "maintain_times": 5
         }
         r = requests.patch(url,data=json.dumps(data), headers=header)
         self.assertEqual(r.status_code,201)
-        print('id号：%s 维修次数更新：\n%s'%(t1,r.text))
+        print('id号：%s 维修次数更新：\n%s'%(t,r.text))
 
     def delete_allid(self):
         """删除添加的所有设备Id"""
-        ids=self.test02_newdevices_allID()
+        print('读取info文件中记录的添加出厂设备-id list.')
+        cf=configparser.ConfigParser()
+        cf.read('C:\\Users\\test\\AppData\\Local\\Programs\\Python\\Python36\\autotest\\test_api\\info.txt')
+        ids_list=cf.get('devices', 'device_id')
+        ids=ast.literal_eval(ids_list)
+        # ids=self.test02_newdevices_allID()
         header = self.header
-        for id in ids:
-            url=self.post_url+'/%s'%id
-            r = requests.delete(url, headers=header)
-            self.assertEqual(r.status_code,204)
-            print('成功删除设备：%s'%id)
-
+        if ids!=[]:
+            print('开始删除测试添加的出厂设备：')
+            for id in ids:
+                print(id)
+                url=self.post_url+'/%s'%id
+                r = requests.delete(url, headers=header)
+                self.assertEqual(r.status_code,204)
+                print('成功删除设备：%s'%id)
+            print('info文档device_id 清空')
+            obj = writeconfig.rwconfig()
+            path = r"C:\Users\test\AppData\Local\Programs\Python\Python36\autotest\test_api\info.txt"
+            obj.modifyconfig(path,'devices','device_id','[]')
+        else:
+            print('添加设备失败，无数据删除。')
 
     def tearDown(self):
         pass
 
 if __name__ == "__main__":
     unittest.main()
+    # r=post_request()
+    # r.setUp()
+    # r.test01_create_factorydevices()
+    # r.test02_newdevices_allID()
+    # r.delete_allid()

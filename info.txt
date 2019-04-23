@@ -1,8 +1,11 @@
 [info]
 name = 12346
-ini_user = user_cubc
-ini_user_id = 5cbd388dfc711f000505ad97
-comm_user = user_cubc
-comm_user_pw = 666666
-comm_user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjYmQzODhkZmM3MTFmMDAwNTA1YWQ5NyIsInV1aWQiOiI1NzliNTMzNS0xNGJjLTQwOGUtYTg2Ny02ZDJjODgxMTBiMjEiLCJ1c2VybmFtZSI6IiIsImlzcyI6IkhaUVgtUm9ib3QifQ.GmW0jcqz85gsvWcnzdK_uclIWO0rhQS-Bl_KuSmsNJY
+ini_user = user_pk52
+ini_user_id = 5cbecc71b35a1b0005c7cb31
+comm_user = user_pk52
+comm_user_pw = 123456
+comm_user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjYmVjYzcxYjM1YTFiMDAwNWM3Y2IzMSIsInV1aWQiOiJiZjg2OWRiYi1lNDVlLTQ2YjUtYTUwYy1hZTljODgzMWJiN2YiLCJpc3MiOiJIWlFYLVJvYm90In0.-qe4nar_Yau9EDYwpPYTPZxmoo2VvlRXbRbiNI11E24
+
+[devices]
+device_id = []
 

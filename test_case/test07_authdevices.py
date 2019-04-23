@@ -251,7 +251,7 @@ class post_request(unittest.TestCase):
         n=r.json()['total']
         if n!=0:
             t=[]
-            for index in range(0,5):       #个数写死，设备文件中的设备数为5
+            for index in range(0,n):
                 t.append(r.json()['data'][index]['id'])
         else:
             t=''
@@ -285,7 +285,7 @@ class post_request(unittest.TestCase):
     def test18_updateone_company(self):
         """修改记录的公司信息"""
         t=self.test15_newdevices_allID()
-        t1=t[1]
+        t1=t[0]
         url=self.post_url+'/%s'%t1
         header = self.header
         data={
@@ -304,7 +304,7 @@ class post_request(unittest.TestCase):
     def test19_updateone_status(self):
         """修改记录的激活状态"""
         t=self.test15_newdevices_allID()
-        t1=t[2]
+        t1=t[0]
         url=self.post_url+'/%s'%t1
         header = self.header
         data={
@@ -317,7 +317,7 @@ class post_request(unittest.TestCase):
     def test20_updateone_date(self):
         """修改记录的有效期"""
         t=self.test15_newdevices_allID()
-        t1=t[3]
+        t1=t[0]
         url=self.post_url+'/%s'%t1
         header = self.header
         data={
@@ -330,7 +330,7 @@ class post_request(unittest.TestCase):
     def test21_updateone_remark(self):
         """修改记录的备注信息"""
         t=self.test15_newdevices_allID()
-        t1=t[4]
+        t1=t[0]
         url=self.post_url+'/%s'%t1
         header = self.header
         data={
