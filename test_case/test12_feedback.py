@@ -22,6 +22,7 @@ class post_request(unittest.TestCase):
         'x-platform':"web",
         'x-module-id': "a8f3e2b3d7b38bdbb2bb13ea3508792d"
         }
+
     def test01_feedbacks_create(self):
         """添加用户建议反馈：纯文本"""
         url=self.post_url
