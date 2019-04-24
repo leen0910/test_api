@@ -6,6 +6,7 @@ from common import readconfig
 from common import get_token
 from common import random_char
 from common import get_list_id
+from common import search_list
 
 class post_request(unittest.TestCase):
     """上传用户反馈添加图片调用七牛接口，需要手工验证（前端上传图片业务逻辑有bug）"""
@@ -177,6 +178,16 @@ class post_request(unittest.TestCase):
         r = requests.get(url,params=payload,headers=header)
         self.assertEqual(r.status_code,200)
         print('用户反馈列表“状态”列降序排序：%s'%r.text)
+
+    def test101_search_list(self):
+        """用户反馈列表搜索功能测试"""
+        print("用户反馈列表搜索key：")
+        url=self.post_url
+        header = self.header
+        key="test"
+        r=search_list.SearchList()
+        r.search(url,header,key)
+
 
     def test11_feedbacks_getone(self):
         """查找某一个反馈"""

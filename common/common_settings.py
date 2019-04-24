@@ -34,14 +34,14 @@ class post_request():
             ]
         }
         r = requests.post(url,data=json.dumps(data),headers=header)
-        print('module_id: %s上传2个邮箱订阅成功：\n%s'%(module_id, r.text))
+        print('上传2个邮箱订阅成功：\n%s'%r.text)
 
     def test2_get_settings(self):
         """获取module订阅邮件列表"""
         url = self.post_url
         header=self.header
         r = requests.get(url,headers=header)
-        print('module_id: %s邮箱订阅列表：\n%s'%(module_id,r.json()['data'][0]['content']))
+        print('邮箱订阅列表：\n%s'%r.json()['data'][0]['content'])
 
     def test3_clear_settings(self):
         """清空module订阅邮件列表"""
@@ -54,9 +54,9 @@ class post_request():
         }
         r = requests.post(url,data=json.dumps(data),headers=header)
         if r.json()['data'][0]['content']==[]:
-            print('module_id: %s已清空邮箱订阅。'%module_id)
+            print('已清空邮箱订阅。')
         else:
-            print('module_id: %s邮箱订阅未清空：%s'%(module_id,r.json()['data'][0]['content']))
+            print('邮箱订阅未清空：%s'%r.json()['data'][0]['content'])
 
 
 

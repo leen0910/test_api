@@ -6,6 +6,7 @@ from common import readconfig
 from common import get_token
 from common import random_char
 from common import get_list_id
+from common import search_list
 
 class post_request(unittest.TestCase):
     def setUp(self):
@@ -117,6 +118,15 @@ class post_request(unittest.TestCase):
         r = requests.get(url,params=payload,headers=header)
         self.assertEqual(r.status_code,200)
         print('终端版本列表“软件大小”降序排序：%s'%r.text)
+
+    def test091_search_list(self):
+        """终端版本列表搜索功能测试"""
+        print("终端版本列表搜索key：")
+        url=self.post_url
+        header = self.header
+        key="test"
+        r=search_list.SearchList()
+        r.search(url,header,key)
 
     def test10_version_getone(self):
         """查看某一个Id的版本记录"""
