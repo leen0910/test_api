@@ -6,6 +6,7 @@ from common import readconfig
 from common import get_token
 from common import random_char
 from common import writeconfig
+from common import search_list
 
 
 
@@ -490,13 +491,13 @@ class post_request(unittest.TestCase):
         self.assertEqual(r.status_code,200)
 
     def test14_search_user(self):
-        """搜索用户列表并返回搜索结果"""
+        """调用common方法：搜索用户列表"""
+        print("用户列表搜索key：")
         url=self.post_url
-        payload = {'search': 'root test'}
         header = self.header
-        r = requests.get(url,params=payload,headers=header)
-        print('搜索内容为：root test的用户列表：\n%s'%r.text)
-        self.assertEqual(r.status_code,200)
+        key="test"
+        r=search_list.SearchList()
+        r.search(url,header,key)
 
     def test15_modify_pwd(self):
         """修改个人帐号密码: 新密码与老密码相同，返回错误。"""

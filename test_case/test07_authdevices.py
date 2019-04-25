@@ -6,6 +6,7 @@ from common import readconfig
 from common import get_token
 from common import get_device
 from test_case import test06_factorydevices
+from common import search_list
 import random
 
 
@@ -132,16 +133,14 @@ class post_request(unittest.TestCase):
         print(r.text)
 
     def test06_searchlist_authdevices(self):
-        """搜索授权设备列表"""
+        """调用common方法：搜索授权设备列表"""
+        print("授权设备列表搜索key：")
         url=self.post_url
         header = self.header
-        payload = {'page[offset]': '0', 'page[limit]': '5','search':'64'}
-        r = requests.get(url, params=payload, headers=header)
-        self.assertEqual(r.status_code,200)
-        if r.json()['total']!=0:
-            print('搜索：64 返回结果为：\n%s'%r.text)
-        else:
-            print('搜索结果为空！')
+        key="64"
+        r=search_list.SearchList()
+        r.search(url,header,key)
+
 
     def test07_filter_list(self):
         """授权设备列表过滤条件：状态：未激活"""

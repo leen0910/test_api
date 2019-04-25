@@ -1,10 +1,10 @@
 [info]
 name = 12346
-ini_user = user_oqf3
-ini_user_id = 5cc00e10b35a1b0005c7cd09
-comm_user = user_oqf3
-comm_user_pw = 123456
-comm_user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjYzAwZTEwYjM1YTFiMDAwNWM3Y2QwOSIsInV1aWQiOiIyNjY3MjdmMi1jMGI5LTQ5MjktOWUxYi1iMWRjZjFhYzU5OGMiLCJpc3MiOiJIWlFYLVJvYm90In0.JO6BzzPIR4KFs-xFcmC_2h-958x-FZma9yevmoeaDyk
+ini_user = user_3531
+ini_user_id = 5cc107f5fc711f000505d450
+comm_user = user_3531
+comm_user_pw = 666666
+comm_user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjYzEwN2Y1ZmM3MTFmMDAwNTA1ZDQ1MCIsInV1aWQiOiI0YzRhZDJhYi03M2VmLTRlMjYtYmU4NS0xYzMyMTU2OGU2NzUiLCJ1c2VybmFtZSI6IiIsImlzcyI6IkhaUVgtUm9ib3QifQ.rJo4ACrsPNaeQGtC-7Q7_t_EX_DH7T1Nog76M3V9Fd8
 
 [devices]
 device_id = []

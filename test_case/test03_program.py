@@ -4,6 +4,7 @@ import json
 import unittest
 from common import readconfig
 from common import get_token
+from common import search_list
 import random
 
 
@@ -84,17 +85,13 @@ class post_request(unittest.TestCase):
         self.assertEqual(r.status_code,200)
 
     def test21_search_program(self):
-        """搜索程序列表并返回搜索结果"""
+        """调用common方法：搜索程序列表"""
+        print("程序列表搜索key：")
         url=self.post_url
-        payload = {'page[offset]': '0', 'page[limit]': '5','search': '12'}
         header = self.header
-        r = requests.get(url,params=payload,headers=header)
-        self.assertEqual(r.status_code,200)
-        if r.json()['total']!=0:
-            print('搜索含有字符“12”的程序列表前五条内容：\n%s'%r.text)
-        else:
-            print('搜索结果为空')
-
+        key="程序"
+        r=search_list.SearchList()
+        r.search(url,header,key)
 
     def modify_program(self):
         """修改第一个程序的主方法"""
@@ -389,17 +386,13 @@ class post_request(unittest.TestCase):
         self.assertEqual(r.status_code,200)
 
     def test14_search_recycleprogram(self):
-        """搜索程序回收站文件列表并返回搜索结果"""
+        """调用common方法：搜索程序回收站文件列表"""
+        print("程序回收站文件列表搜索key：")
         url=self.post_url+'/recycle-bins'
-        payload = {'page[offset]': '0', 'page[limit]': '5','search': '程序'}
         header = self.header
-        r = requests.get(url,params=payload,headers=header)
-        self.assertEqual(r.status_code,200)
-        if r.json()['total']!=0:
-            print('搜索含有字符“程序”的程序列表前五条内容：\n%s'%r.text)
-        else:
-            print('搜索结果为空')
-
+        key="程序"
+        r=search_list.SearchList()
+        r.search(url,header,key)
 
     def test15_getprogram_allID(self):
         """得到所有程序文件列表的id"""

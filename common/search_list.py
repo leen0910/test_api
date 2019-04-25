@@ -8,8 +8,7 @@ class SearchList(unittest.TestCase):
         """搜索列表，结果按每页5个返回第一页"""
         payload = {'page[offset]': '0', 'page[limit]': '5','search':key}
         r = requests.get(url, params=payload, headers=header)
-        print(r.text)
-        # self.assertEqual(r.status_code,200)
+        self.assertEqual(r.status_code,200)
         if r.json()['total']!=0:
             print('搜索：%s 返回结果为：\n%s'%(key,r.text))
         else:

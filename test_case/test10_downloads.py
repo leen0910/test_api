@@ -6,6 +6,7 @@ from common import get_token
 from common import random_char
 from common import get_list_id
 from common import search_list
+from common import common_settings
 
 class post_request(unittest.TestCase):
 
@@ -123,7 +124,7 @@ class post_request(unittest.TestCase):
         print('下载申请列表按“状态”降序排序：\n%s'%r.text)
 
     def test091_search_list(self):
-        """下载申请列表搜索功能测试"""
+        """调用common方法：下载申请列表搜索功能测试"""
         print("下载申请列表搜索key：")
         url=self.post_url
         header = self.header
@@ -133,46 +134,18 @@ class post_request(unittest.TestCase):
 
 
     def test10_post_settings(self):
-        """配置下载申请列表订阅邮件列表"""
-        self.rt=readconfig.ReadConfig()
-        API=self.rt.get_api()
-        Prefix=self.rt.get_prefix()
-        url = '%s%s/settings'%(API,Prefix)  #settings接口
-        self.t=get_token.GetToken()
-        token=self.t.test_token()
-        header= {
-        'content-type': "application/json",
-        'authorization':token,
-        'x-platform':"web",
-        'x-module-id': "c64d9830c7688cb1366a954b97ff87e7"
-        }
-        data={
-            "content": [
-            "16955414@qq.com",
-            "leen0910@sina.com"
-            ]
-        }
-        r = requests.post(url,data=json.dumps(data),headers=header)
-        self.assertEqual(r.status_code,201)
-        print('上传2个邮箱订阅成功：\n%s'%r.text)
+        """调用common_settings配置充值请求列表订阅邮件列表"""
+        module_id="c64d9830c7688cb1366a954b97ff87e7"
+        email1="16951414@qq.com"
+        email2="leen0910@sina.com"
+        r=common_settings.post_request(module_id)
+        r.test1_post_settings(email1,email2)
 
     def test11_get_settings(self):
-        """获取下载申请列表订阅邮件列表"""
-        self.rt=readconfig.ReadConfig()
-        API=self.rt.get_api()
-        Prefix=self.rt.get_prefix()
-        url = '%s%s/settings'%(API,Prefix)  #settings接口
-        self.t=get_token.GetToken()
-        token=self.t.test_token()
-        header= {
-        'content-type': "application/json",
-        'authorization':token,
-        'x-platform':"web",
-        'x-module-id': "c64d9830c7688cb1366a954b97ff87e7"
-        }
-        r = requests.get(url,headers=header)
-        self.assertEqual(r.status_code,200)
-        print('下载申请的邮箱订阅列表：\n%s'%r.json()['data'][0]['content'])
+        """调用common_settings获取充值请求列表订阅邮件列表"""
+        module_id="c64d9830c7688cb1366a954b97ff87e7"
+        r=common_settings.post_request(module_id)
+        r.test2_get_settings()
 
     def test12_download_process(self):
         """处理软件下载请求(发送邮件)"""
@@ -199,30 +172,10 @@ class post_request(unittest.TestCase):
         print('已处理下载申请：\n%s'%r.text)
 
     def test13_clear_settings(self):
-        """清空下载申请列表订阅邮件列表"""
-        self.rt=readconfig.ReadConfig()
-        API=self.rt.get_api()
-        Prefix=self.rt.get_prefix()
-        url = '%s%s/settings'%(API,Prefix)  #settings接口
-        self.t=get_token.GetToken()
-        token=self.t.test_token()
-        header= {
-        'content-type': "application/json",
-        'authorization':token,
-        'x-platform':"web",
-        'x-module-id': "c64d9830c7688cb1366a954b97ff87e7"
-        }
-        data={
-            "content": [
-
-            ]
-        }
-        r = requests.post(url,data=json.dumps(data),headers=header)
-        self.assertEqual(r.status_code,201)
-        if r.json()['data'][0]['content']==[]:
-            print('已清空下载申请的邮箱订阅。')
-        else:
-            print('下载申请的邮箱订阅未清空：%s'%r.json()['data'][0]['content'])
+        """调用common_settings清空充值请求列表订阅邮件列表"""
+        module_id="c64d9830c7688cb1366a954b97ff87e7"
+        r=common_settings.post_request(module_id)
+        r.test3_clear_settings()
 
 
     def test14_download_clearall(self):

@@ -7,6 +7,7 @@ from common import get_token
 from common import get_device
 from common import get_list_id
 from common import writeconfig
+from common import search_list
 import random
 import configparser
 import ast
@@ -121,16 +122,13 @@ class post_request(unittest.TestCase):
         print(r.text)
 
     def test06_searchlist_factorydevices(self):
-        """搜索出厂设备列表"""
+        """调用common方法：搜索出厂设备列表"""
+        print("出厂设备列表搜索key：")
         url=self.post_url
         header = self.header
-        payload = {'page[offset]': '0', 'page[limit]': '5','search':'64'}
-        r = requests.get(url, params=payload, headers=header)
-        self.assertEqual(r.status_code,200)
-        if r.json()['total']!=0:
-            print('搜索：64 返回结果为：\n%s'%r.text)
-        else:
-            print('搜索结果为空！')
+        key="64"
+        r=search_list.SearchList()
+        r.search(url,header,key)
 
     def test07_sortlist_ctrl_ver(self):
         """设备列表按“控制器版本”升序排序：ctrl_ver"""

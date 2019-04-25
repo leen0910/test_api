@@ -4,6 +4,7 @@ import json
 import unittest
 from common import readconfig
 from common import get_token
+from common import search_list
 import random
 
 
@@ -72,16 +73,13 @@ class post_request(unittest.TestCase):
         self.assertEqual(r.status_code,200)
 
     def test23_search_tmplprogram(self):
-        """搜索个人模板文件列表并返回搜索结果"""
+        """调用common方法：搜索个人模板文件列表"""
+        print("个人模板文件列表搜索key：")
         url=self.post_url
-        payload = {'page[offset]': '0', 'page[limit]': '5','search': '测试'}
         header = self.header
-        r = requests.get(url,params=payload,headers=header)
-        self.assertEqual(r.status_code,200)
-        if r.json()['total']!=0:
-            print('搜索含有字符“测试”的模板程序列表前五条内容：\n%s'%r.text)
-        else:
-            print('搜索结果为空')
+        key="测试"
+        r=search_list.SearchList()
+        r.search(url,header,key)
 
     def modify_tmplprogram(self):
         """修改第一个模板程序的主方法"""
@@ -320,16 +318,13 @@ class post_request(unittest.TestCase):
         self.assertEqual(r.status_code,200)
 
     def test16_search_recycletmpl(self):
-        """搜索模板程序回收站文件列表并返回搜索结果"""
+        """调用common方法：搜索模板程序回收站文件列表"""
+        print("模板程序回收站文件列表搜索key：")
         url=self.post_url+'/recycle-bins'
-        payload = {'page[offset]': '0', 'page[limit]': '5','search': '模板'}
         header = self.header
-        r = requests.get(url,params=payload,headers=header)
-        self.assertEqual(r.status_code,200)
-        if r.json()['total']!=0:
-            print('搜索含有字符“模板”的模板程序列表前五条内容：\n%s'%r.text)
-        else:
-            print('搜索结果为空')
+        key="模板"
+        r=search_list.SearchList()
+        r.search(url,header,key)
 
     def test161_filter_recycletmpl(self):
         """按类型:焊接 & 机型:Q,过滤模板程序回收站列表"""
@@ -724,17 +719,13 @@ class post_request(unittest.TestCase):
             print('公开模板程序列表为空')
 
     def test29_search_public(self):
-        """搜索公开模板程序列表"""
+        """调用common方法：搜索公开模板程序列表"""
+        print("公开模板程序列表搜索key：")
         url=self.post_url+'/public'
         header = self.header
-        payload = {'page[offset]': '0', 'page[limit]': '5','search':'模板'}
-        r = requests.get(url,params=payload, headers=header)
-        self.assertEqual(r.status_code,200)
-        if r.json()['total']!=0:
-            print("搜索公开模板含 有“模板”的文件，返回第一页内容")
-            print(r.text)
-        else:
-            print('搜索公开模板含 有“模板”的文件，结果为空')
+        key="测试"
+        r=search_list.SearchList()
+        r.search(url,header,key)
 
     def test30_filter_public(self):
         """过滤为免费公开模板程序列表"""

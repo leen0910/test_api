@@ -139,8 +139,8 @@ class post_request(unittest.TestCase):
         print('充值请求列表“付款时间”降序排序：%s'%r.text)
 
     def test12_search_list(self):
-        """下载申请列表搜索功能测试"""
-        print("充值请求列表搜索key：")
+        """调用common方法：凭证管理列表搜索功能测试"""
+        print("凭证管理列表搜索key：")
         url=self.post_url
         header = self.header
         key="2019"
@@ -186,8 +186,7 @@ class post_request(unittest.TestCase):
         email2="leen0910@gmail.com"
         r=common_settings.post_request(module_id)
         r.test1_post_settings(email1,email2)
-        # r.test2_get_settings()
-        # r.test3_clear_settings()
+
 
     def test17_get_settings(self):
         """调用common_settings获取充值请求列表订阅邮件列表"""
