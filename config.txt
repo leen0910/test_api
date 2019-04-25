@@ -1,7 +1,7 @@
 [base]
 api = https://test.robot-qixing.com:1014
 port = 
-prefix = /v098
+prefix = /v0
 account = lining
-pw = 631244
+pw = ql0094
 

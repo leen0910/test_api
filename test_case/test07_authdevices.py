@@ -406,22 +406,26 @@ class post_request(unittest.TestCase):
                 # self.assertEqual(r.status_code,200)
                 print('按省份：%s &公司名称：%s 统计的设备总数：\n%s'%(element,prov[element],r.text))
 
-    def test26_delete_one(self):
-        """删除一条授权信息"""
-        t=self.test15_newdevices_allID()
-        t1=t[0]
-        url=self.post_url+'/%s'%t1
-        header = self.header
-        r = requests.delete(url, headers=header)
-        self.assertEqual(r.status_code,204)
-        print('id号：%s 授权设备删除成功：\n%s'%(t1,r.text))
+    # def test26_delete_one(self):
+    #     """删除一条授权信息"""
+    #     t=self.test15_newdevices_allID()
+    #     t1=t[0]
+    #     url=self.post_url+'/%s'%t1
+    #     header = self.header
+    #     r = requests.delete(url, headers=header)
+    #     self.assertEqual(r.status_code,204)
+    #     print('id号：%s 授权设备删除成功：\n%s'%(t1,r.text))
+
+    #    删除设备授权信息因为业务关联性，在此处屏蔽。
 
 
-    def test27_delete_factorydevices(self):
-        """删除新添加设备的出厂设备记录"""
-        tr=test06_factorydevices.post_request()
-        tr.setUp()
-        tr.delete_allid()
+    # def test27_delete_factorydevices(self):
+    #     """删除新添加设备的出厂设备记录"""
+    #     tr=test06_factorydevices.post_request()
+    #     tr.setUp()
+    #     tr.delete_allid()
+
+        #  删除设备授权信息因为业务关联性，移到robots接口中执行，在此处屏蔽。
 
 
     def tearDown(self):

@@ -1,11 +1,12 @@
 [info]
 name = 12346
-ini_user = user_3531
-ini_user_id = 5cc107f5fc711f000505d450
-comm_user = user_3531
-comm_user_pw = 666666
-comm_user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjYzEwN2Y1ZmM3MTFmMDAwNTA1ZDQ1MCIsInV1aWQiOiI0YzRhZDJhYi03M2VmLTRlMjYtYmU4NS0xYzMyMTU2OGU2NzUiLCJ1c2VybmFtZSI6IiIsImlzcyI6IkhaUVgtUm9ib3QifQ.rJo4ACrsPNaeQGtC-7Q7_t_EX_DH7T1Nog76M3V9Fd8
+ini_user = user_rl50
+ini_user_id = 5cc15d80d6582a00058e8835
+comm_user = user_rl50
+comm_user_pw = 123456
+comm_user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjYzE1ZDgwZDY1ODJhMDAwNThlODgzNSIsInV1aWQiOiIyMWJkYjc5Zi0xMTJjLTQwNGMtOWVmYy1lZGI3ZGUyZjcwYTgiLCJpc3MiOiJIWlFYLVJvYm90In0.DjwzcjdejUTSX8k9Psj_V7dhReISS56ffv2O1NN1xg4
 
 [devices]
 device_id = []
+sr_list = []
 

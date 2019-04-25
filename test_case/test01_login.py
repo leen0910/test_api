@@ -11,17 +11,17 @@ class post_request(unittest.TestCase):
         self.rt=readconfig.ReadConfig()
         API=self.rt.get_api()
         Prefix=self.rt.get_prefix()
-        self.post_url = '%s%s/users/login'%(API,Prefix)  #登录接口
+        self.post_url = '%s%s/users/login'%(API,Prefix)   # 登录接口
         self.header = {
     'content-type': "application/json",
     'x-platform': "web",
-    } #根据实际内容
+    }  # 根据实际内容
 
     def common_login(self,account,pw):
         """通用登录接口调用方法"""
         url=self.post_url
         header = self.header
-        data = {"account":account,"password":pw} #正确的登录帐号
+        data = {"account":account,"password":pw}  # 正确的登录帐号
         r = requests.post(url, data=json.dumps(data), headers=header)
         self.assertEqual(r.status_code,200)
         token=r.headers["authorization"]
@@ -43,8 +43,8 @@ class post_request(unittest.TestCase):
         """正确用户名密码登录"""
         url=self.post_url
         header = self.header
-        data = {"account":"root","password":"root09"} #正确的登录帐号
-        #将data序列化为json格式数据，传递给data参数
+        data = {"account":"root","password":"root09"}  # 正确的登录帐号
+        # 将data序列化为json格式数据，传递给data参数
         r = requests.post(url, data=json.dumps(data), headers=header)
         self.assertEqual(r.status_code,200)
         if r.json()['total']==1:
@@ -60,7 +60,7 @@ class post_request(unittest.TestCase):
         """异常数据：不存在的帐户"""
         url=self.post_url
         header = self.header
-        data = {"account":"root1","password":"root09"} #不存在的登录帐号名
+        data = {"account":"root1","password":"root09"}  # 不存在的登录帐号名
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
         self.assertEqual(r.json()["code"],4101)
@@ -69,7 +69,7 @@ class post_request(unittest.TestCase):
         """异常数据：密码错误"""
         url=self.post_url
         header = self.header
-        data = {"account":"root","password":"root"} #帐号名正确，密码错误
+        data = {"account":"root","password":"root"}  # 帐号名正确，密码错误
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
         self.assertEqual(r.json()["code"],4107)
@@ -78,7 +78,7 @@ class post_request(unittest.TestCase):
         """异常数据：空帐户名密码"""
         url=self.post_url
         header = self.header
-        data = {"account":"","password":""} #帐号名，密码为空
+        data = {"account":"","password":""}   # 帐号名，密码为空
         r = requests.post(url, data=json.dumps(data), headers=header)
         print(r.text)
         self.assertEqual(r.json()["code"],4107)

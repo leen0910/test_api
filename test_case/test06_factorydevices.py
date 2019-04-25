@@ -15,6 +15,7 @@ import ast
 
 class post_request(unittest.TestCase):
     device_id=[]
+    sr_list=[]
     def setUp(self):
         self.rt=readconfig.ReadConfig()
         API=self.rt.get_api()
@@ -48,6 +49,7 @@ class post_request(unittest.TestCase):
             self.assertEqual(r.status_code,201)
             if r.json()['total']!=0:
                 self.device_id.append(r.json()['data'][0]['id'])
+                self.sr_list.append(r.json()['data'][0]['serial'])
                 print('成功添加设备：%s'%device[1])
             else:
                 print('添加数据错误：\n%s'%r.text)
@@ -68,10 +70,12 @@ class post_request(unittest.TestCase):
         #     print('设备列表为空')
         # print("get添加设备的id:%s "%t)
         t=self.device_id
+        sr=self.sr_list
         print('上个用例添加新设备的id号: %s'%t)
         obj = writeconfig.rwconfig()
         path = r"C:\Users\test\AppData\Local\Programs\Python\Python36\autotest\test_api\info.txt"
         obj.modifyconfig(path,'devices','device_id',str(t))
+        obj.modifyconfig(path,'devices','sr_list',str(sr))
         return t
 
     def test03_create_exists(self):
@@ -356,6 +360,7 @@ class post_request(unittest.TestCase):
             obj = writeconfig.rwconfig()
             path = r"C:\Users\test\AppData\Local\Programs\Python\Python36\autotest\test_api\info.txt"
             obj.modifyconfig(path,'devices','device_id','[]')
+            obj.modifyconfig(path,'devices','sr_list','[]')
         else:
             print('添加设备失败，无数据删除。')
 
